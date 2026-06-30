@@ -15,7 +15,7 @@ function LoginCard() {
 
           <div className="inputGroup">
             <label>Contraseña</label>
-            <input type="password" placeholder="••••••••" />
+            <input type="password" placeholder="••••••••••••••" />
           </div>
           <div className="rememberContainer">
             <label>
