@@ -28,7 +28,7 @@
   margin-bottom: 20px;
 }
 
-.loginSubtitle {
+h2.loginSubtitle {
   text-align: center;
   color: #c62828;
   margin-bottom: 80px;
