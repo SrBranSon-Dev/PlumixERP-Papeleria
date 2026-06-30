@@ -6,6 +6,7 @@ function LoginCard() {
     <div className="loginContainer">
       <div className="loginCard">
         <img src={initLogo} alt="PlumixERP" className="loginLogo" />
+        <h2>Bienvenido a PlumixERP</h2>
 
         <form>
           <div className="inputGroup">
