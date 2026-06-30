@@ -1,0 +1,60 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.navbar {
+  height: 6px;
+  background: #c62828;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 40px;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  color: #101010;
+  font-family: "Helvetica Neue", sans-serif;
+  font-size: 30px;
+  font-weight: bold;
+}
+
+.logoImg {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.navMenu {
+  display: flex;
+  list-style: none;
+  gap: 30px;
+}
+.btnLogin {
+  background: #cecece;
+  color: #000000;
+
+  border: none;
+  border-radius: 10px;
+
+  padding: 15px 15px;
+
+  font-family: "Helvetica Neue", sans-serif;
+  font-weight: 600;
+  font-size: 15px;
+
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.btnLogin:hover {
+  background: #cecece;
+}

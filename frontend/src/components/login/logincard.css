@@ -1,0 +1,126 @@
+.loginContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(100vh - 130px);
+  padding: 60px 30px;
+}
+
+.loginCard {
+  width: 100%;
+  max-width: 550px;
+
+  background: #ffffff;
+
+  padding: 60px;
+
+  border-radius: 40px;
+
+  border: 1px solid #e5e5e5;
+
+  box-shadow: 0 10px 30px rgba(255, 0, 0, 0.08);
+}
+
+.loginCard h2 {
+  font-family: "Lora", serif;
+  color: #101010;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.loginSubtitle {
+  text-align: center;
+  color: #000000;
+  margin-bottom: 80px;
+  font-family: "Helvetica Neue", sans-serif;
+  font-size: 25px;
+}
+
+.loginLogo {
+  width: 150px;
+  display: block;
+  margin: 0 auto 20px;
+}
+
+.rememberContainer {
+  margin-bottom: 20px;
+  font-size: 14px;
+  font-family: "Helvetica Neue", sans-serif;
+}
+
+.rememberContainer label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+
+.inputGroup label {
+  margin-bottom: 8px;
+  color: #101010;
+  font-family: "Helvetica Neue", sans-serif;
+  font-weight: 600;
+}
+
+.inputGroup input {
+  padding: 12px 14px;
+
+  border: 1px solid #cecece;
+  border-radius: 6px;
+
+  font-size: 15px;
+  font-family: "Helvetica Neue", sans-serif;
+
+  outline: none;
+}
+
+.inputGroup input:focus {
+  border-color: #c62828;
+}
+
+.loginButton {
+  width: 100%;
+
+  padding: 13px;
+
+  border: none;
+  border-radius: 6px;
+
+  background: #c62828;
+  color: white;
+
+  font-family: "Helvetica Neue", sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition: background 0.3s;
+}
+
+.loginButton:hover {
+  background: #a61f1f;
+}
+
+.forgotPassword {
+  display: block;
+  margin-top: 18px;
+
+  text-align: center;
+
+  color: #000000;
+
+  text-decoration: none;
+
+  font-size: 14px;
+}
+
+.forgotPassword:hover {
+  text-decoration: underline;
+}
