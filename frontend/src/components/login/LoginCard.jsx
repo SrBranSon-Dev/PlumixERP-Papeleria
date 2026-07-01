@@ -1,7 +1,11 @@
+import { useState } from "react";
 import "./logincard.css";
 import initLogo from "../../images/InitLogo.png";
 
 function LoginCard() {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+
   return (
     <div className="loginContainer">
       <div className="loginCard">
@@ -11,13 +15,23 @@ function LoginCard() {
         <form>
           <div className="inputGroup">
             <label>Correo electrónico</label>
-            <input type="email" placeholder="Email" />
           </div>
+          <input
+            type="text"
+            placeholder="Usuario"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+          />
 
           <div className="inputGroup">
             <label>Contraseña</label>
-            <input type="password" placeholder="••••••••••••••" />
           </div>
+          <input
+            type="password"
+            placeholder="••••••••••••••"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
           <div className="rememberContainer">
             <label>
               <input type="checkbox" />
