@@ -39,25 +39,29 @@ function LoginCard() {
         <h2 className="loginSubtitle">Bienvenido a PlumixERP</h2>
 
         <form onSubmit={handleLogin}>
+          {/* Grupo de Correo/Usuario */}
           <div className="inputGroup">
             <label>Correo electrónico</label>
+            <input
+              type="text"
+              placeholder="Usuario"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+            />
           </div>
-          <input
-            type="text"
-            placeholder="Usuario"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-          />
 
+          {/* Grupo de Contraseña */}
           <div className="inputGroup">
             <label>Contraseña</label>
+            <input
+              type="password"
+              placeholder="••••••••••••••"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
           </div>
-          <input
-            type="password"
-            placeholder="••••••••••••••"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
+
+          {/* Recordar mi sesión */}
           <div className="rememberContainer">
             <label>
               <input type="checkbox" />
