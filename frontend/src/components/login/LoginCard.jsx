@@ -16,7 +16,13 @@ function LoginCard() {
         password,
       });
 
-      console.log("Respuesta del servidor:", response.data);
+      console.log("Respuesta:", response.data);
+
+      localStorage.setItem("access", response.data.access);
+      localStorage.setItem("refresh", response.data.refresh);
+
+      console.log("Access guardado:", localStorage.getItem("access"));
+      console.log("Refresh guardado:", localStorage.getItem("refresh"));
     } catch (error) {
       console.error("Error:", error.response?.data || error.message);
     }
