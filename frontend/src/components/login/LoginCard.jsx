@@ -3,10 +3,12 @@ import "./logincard.css";
 import initLogo from "../../images/InitLogo.png";
 import api from "../../services/api";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
 
 function LoginCard() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const { login } = useAuth();
   const navigate = useNavigate();
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -21,6 +23,9 @@ function LoginCard() {
 
       localStorage.setItem("access", response.data.access);
       localStorage.setItem("refresh", response.data.refresh);
+
+      login();
+
       navigate("/dashboard");
     } catch (error) {
       console.error("Error:", error.response?.data || error.message);
