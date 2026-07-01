@@ -1,10 +1,26 @@
 import { useState } from "react";
 import "./logincard.css";
 import initLogo from "../../images/InitLogo.png";
+import api from "../../services/api";
 
 function LoginCard() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+
+    try {
+      const response = await api.post("login/", {
+        username,
+        password,
+      });
+
+      console.log("Respuesta del servidor:", response.data);
+    } catch (error) {
+      console.error("Error:", error.response?.data || error.message);
+    }
+  };
 
   return (
     <div className="loginContainer">
@@ -12,7 +28,7 @@ function LoginCard() {
         <img src={initLogo} alt="PlumixERP" className="loginLogo" />
         <h2 className="loginSubtitle">Bienvenido a PlumixERP</h2>
 
-        <form>
+        <form onSubmit={handleLogin}>
           <div className="inputGroup">
             <label>Correo electrónico</label>
           </div>
