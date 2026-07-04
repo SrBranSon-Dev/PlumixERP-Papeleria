@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django_filters',
     'rest_framework',
     'corsheaders',
+    'usuarios',
 
 ]
 
@@ -132,14 +133,14 @@ CORS_ALLOWED_ORIGINS = [
 from datetime import timedelta
 
 REST_FRAMEWORK = {
-
-    "DEFAULT_AUTHENTICATION_CLASSES": (
-
-        "rest_framework_simplejwt.authentication.JWTAuthentication",
-
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
-
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
 }
+
 
 SIMPLE_JWT = {
 
@@ -148,3 +149,6 @@ SIMPLE_JWT = {
     "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
 
 }
+
+AUTH_USER_MODEL = 'usuarios.UsuarioPersonalizado'
+

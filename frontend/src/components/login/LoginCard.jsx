@@ -14,21 +14,37 @@ function LoginCard() {
     e.preventDefault();
 
     try {
+      // 1. Enviamos las credenciales para obtener los tokens JWT
       const response = await api.post("login/", {
         username,
         password,
       });
 
-      console.log("Respuesta:", response.data);
+      const { access, refresh } = response.data;
 
-      localStorage.setItem("access", response.data.access);
-      localStorage.setItem("refresh", response.data.refresh);
+      // 2. Hacemos una petición rápida al endpoint de perfil usando el token obtenido
+      // para saber si es el Dueño o un Empleado antes de cargar el Dashboard
+      const perfilResponse = await api.get("perfil/", {
+        headers: {
+          Authorization: `Bearer ${access}`,
+        },
+      });
 
-      login();
+      const rolUsuario = perfilResponse.data.rol;
 
+      console.log("Sesión iniciada con éxito. Rol detectado:", rolUsuario);
+
+      // 3. Enviamos los tres datos al AuthContext actualizado para que los gestione
+      login(access, refresh, rolUsuario);
+
+      // 4. Redirigimos al Dashboard correspondiente
       navigate("/dashboard");
     } catch (error) {
-      console.error("Error:", error.response?.data || error.message);
+      console.error(
+        "Error al iniciar sesión:",
+        error.response?.data || error.message,
+      );
+      alert(error.response?.data?.detail || "Usuario o contraseña incorrectos");
     }
   };
 
@@ -41,10 +57,10 @@ function LoginCard() {
         <form onSubmit={handleLogin}>
           {/* Grupo de Correo/Usuario */}
           <div className="inputGroup">
-            <label>Correo electrónico</label>
+            <label>Usuario</label>
             <input
               type="text"
-              placeholder="Usuario"
+              placeholder="Escriba su usuario"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
             />

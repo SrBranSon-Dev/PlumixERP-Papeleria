@@ -1,0 +1,265 @@
+/* Container Principal */
+.registro-empleados-container {
+  max-width: 1200px;
+  margin: 30px auto;
+  padding: 20px;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  color: #333;
+}
+
+.registro-empleados-container h2 {
+  font-size: 28px;
+  color: #c92424; /* Rojo corporativo PlumixERP */
+  margin-bottom: 25px;
+  border-bottom: 2px solid #f0f0f0;
+  padding-bottom: 10px;
+}
+
+/* Sección del Formulario */
+.form-section {
+  background: #ffffff;
+  border-radius: 8px;
+  padding: 25px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  margin-bottom: 40px;
+  border-left: 4px solid #c92424;
+}
+
+.form-section h3 {
+  margin-top: 0;
+  margin-bottom: 20px;
+  color: #444;
+  font-size: 20px;
+}
+
+/* Estructura del Formulario */
+.registro-form {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  font-weight: 600;
+  margin-bottom: 8px;
+  font-size: 14px;
+  color: #555;
+}
+
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group input[type="password"] {
+  padding: 10px 14px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 15px;
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: #c92424;
+  box-shadow: 0 0 0 3px rgba(201, 36, 36, 0.1);
+}
+
+/* Checkbox */
+.checkbox-group {
+  grid-column: 1 / -1;
+  flex-direction: row;
+  align-items: center;
+  margin-top: 5px;
+}
+
+.checkbox-group label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  font-weight: normal;
+}
+
+.checkbox-group input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  accent-color: #c92424;
+  cursor: pointer;
+}
+
+/* Botones y Acciones del Formulario */
+.form-actions {
+  grid-column: 1 / -1;
+  display: flex;
+  gap: 15px;
+  margin-top: 10px;
+}
+
+.btn-registrar {
+  background-color: #c92424;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  font-size: 15px;
+  font-weight: 600;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.btn-registrar:hover {
+  background-color: #a81c1c;
+}
+
+.btn-cancelar {
+  background-color: #e0e0e0;
+  color: #444;
+  border: none;
+  padding: 12px 24px;
+  font-size: 15px;
+  font-weight: 600;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.btn-cancelar:hover {
+  background-color: #d5d5d5;
+}
+
+/* Alertas de Mensajes */
+.success-message {
+  background-color: #d4edda;
+  color: #155724;
+  padding: 12px 20px;
+  border-radius: 6px;
+  margin-bottom: 20px;
+  border: 1px solid #c3e6cb;
+  font-weight: 500;
+}
+
+.error-message {
+  background-color: #f8d7da;
+  color: #721c24;
+  padding: 12px 20px;
+  border-radius: 6px;
+  margin-bottom: 20px;
+  border: 1px solid #f5c6cb;
+  font-weight: 500;
+}
+
+/* Sección de la Tabla */
+.tabla-section h3 {
+  color: #444;
+  font-size: 20px;
+  margin-bottom: 15px;
+}
+
+.tabla-empleados {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  border: none;
+}
+
+.tabla-empleados th {
+  background-color: #f8f9fa;
+  color: #555;
+  font-weight: 600;
+  text-align: left;
+  padding: 14px 18px;
+  border-bottom: 2px solid #eee;
+}
+
+.tabla-empleados td {
+  padding: 14px 18px;
+  border-bottom: 1px solid #f0f0f0;
+  vertical-align: middle;
+  font-size: 15px;
+}
+
+/* Efecto visual para filas inactivas (Baja Lógica) */
+.tabla-empleados tr {
+  transition:
+    background-color 0.2s,
+    opacity 0.2s;
+}
+
+.tabla-empleados tr:hover {
+  background-color: #fcfcfc;
+}
+
+/* Botones de Acción de la Tabla */
+.btn-editar {
+  background-color: #0275d8;
+  color: white;
+  border: none;
+  padding: 6px 14px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.2s;
+}
+
+.btn-editar:hover {
+  background-color: #025aa5;
+}
+
+/* Estilos de botones dinámicos basados en inline style o clases */
+.tabla-empleados button {
+  font-size: 14px;
+  border-radius: 4px;
+  padding: 6px 14px;
+  cursor: pointer;
+  font-weight: 500;
+  border: none;
+  transition: opacity 0.2s;
+}
+
+/* 🆕 INTEGRADO: Estilos definidos y sólidos para el botón de baja (Rojo) */
+.tabla-empleados .btn-baja-rojo {
+  background-color: #dc3545 !important;
+  color: #ffffff !important;
+  opacity: 1 !important; /* Fuerza a romper la opacidad de la fila heredada */
+  margin-left: 10px;
+  transition: background-color 0.2s;
+}
+
+.tabla-empleados .btn-baja-rojo:hover {
+  background-color: #bd2130 !important;
+}
+
+/* 🆕 INTEGRADO: Estilos definidos y sólidos para el botón de activar (Verde) */
+.tabla-empleados .btn-activar-verde {
+  background-color: #28a745 !important;
+  color: #ffffff !important;
+  opacity: 1 !important; /* Fuerza el color brillante en filas opacas */
+  margin-left: 10px;
+  transition: background-color 0.2s;
+}
+
+.tabla-empleados .btn-activar-verde:hover {
+  background-color: #218838 !important;
+}
+
+/* Botón de eliminación permanente (Gris oscuro/Negro con hover rojo fuego) */
+.tabla-empleados .btn-eliminar-definitivo {
+  background-color: #343a40 !important;
+  color: #ffffff !important;
+  opacity: 1 !important;
+  transition: background-color 0.2s;
+  margin-left: 10px;
+}
+
+.tabla-empleados .btn-eliminar-definitivo:hover {
+  background-color: #bd2130 !important; /* Rojo vivo en hover */
+  box-shadow: 0 2px 6px rgba(189, 33, 48, 0.3);
+}

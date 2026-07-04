@@ -1,0 +1,100 @@
+/* estructura base del layout en pantalla completa */
+.dashboard-layout {
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  background-color: #f4f6f9;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* 🧭 barra lateral izquierda */
+.dashboard-sidebar {
+  width: 260px;
+  background-color: #1a1a2e; /* gris azulado oscuro muy elegante */
+  color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
+  padding-top: 20px; /* margen superior para que los botones empiecen desde arriba */
+}
+
+/* CORREGIDO: Se eliminaron por completo las clases .sidebar-brand y .sidebar-brand h2 para quitar el texto rojo repetido */
+
+.sidebar-menu {
+  display: flex;
+  flex-direction: column;
+  padding: 20px 12px;
+  gap: 6px;
+}
+
+.sidebar-link {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 12px 16px;
+  background: none;
+  border: none;
+  color: #b3b3b3;
+  font-size: 15px;
+  font-weight: 500;
+  text-align: left;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.sidebar-link:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+  color: #ffffff;
+}
+
+.sidebar-link.active {
+  background-color: #c92424;
+  color: #ffffff;
+  font-weight: 600;
+}
+
+.sidebar-icon {
+  margin-right: 12px;
+  font-size: 18px;
+}
+
+/* 💻 bloque contenedor derecho */
+.dashboard-main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* área del cuerpo principal */
+.dashboard-body {
+  padding: 40px;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.welcome-view h1 {
+  font-size: 26px;
+  color: #1a202c;
+  margin-top: 0;
+  margin-bottom: 8px;
+}
+
+.welcome-view p {
+  color: #4a5568;
+  font-size: 15px;
+  margin-bottom: 30px;
+}
+
+/* CORREGIDO: Se eliminaron por completo las clases de .profile-card-summary y sus sub-campos para limpiar la pantalla de inicio */
+
+.loading-dashboard {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  font-size: 16px;
+  color: #718096;
+}

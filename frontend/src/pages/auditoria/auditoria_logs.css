@@ -1,0 +1,44 @@
+.auditoria-container {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.auditoria-tabla {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  font-family: sans-serif;
+}
+.auditoria-tabla th,
+.auditoria-tabla td {
+  padding: 12px;
+  border-bottom: 1px solid #ddd;
+  text-align: left;
+}
+.auditoria-tabla th {
+  background-color: #f4f6f9;
+  color: #333;
+}
+.badge {
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.85em;
+  font-weight: bold;
+}
+/* Colores dinámicos para identificar riesgos rápido */
+.accion-registro_empleado {
+  background-color: #e3f2fd;
+  color: #0d47a1;
+}
+.accion-baja_empleado {
+  background-color: #ffebee;
+  color: #c62828;
+}
+.accion-apertura_caja {
+  background-color: #e8f5e9;
+  color: #2e7d32;
+}
+.accion-cierre_caja {
+  background-color: #fff3e0;
+  color: #ef6c00;
+}
