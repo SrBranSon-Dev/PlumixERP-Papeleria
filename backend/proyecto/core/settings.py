@@ -41,7 +41,6 @@ INSTALLED_APPS = [
     'rest_framework',
     'corsheaders',
 
-    'aplicaciones.usuarios',
 ]
 
 MIDDLEWARE = [
@@ -149,5 +148,3 @@ SIMPLE_JWT = {
     "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
 
 }
-
-AUTH_USER_MODEL = "usuarios.Usuario"
