@@ -37,9 +37,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_filters',
     'rest_framework',
     'corsheaders',
-    'aplicaciones.usuarios'
+
+    'aplicaciones.usuarios',
 ]
 
 MIDDLEWARE = [
@@ -79,7 +81,7 @@ WSGI_APPLICATION = 'core.wsgi.application'
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.mysql",
-        "NAME": "mydb",
+        "NAME": "plumixerp",
         "USER": "root",
         "PASSWORD": "Admin123456789",
         "HOST": "127.0.0.1",
