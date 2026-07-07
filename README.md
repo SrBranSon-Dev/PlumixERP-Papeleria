@@ -66,7 +66,7 @@ Para probar la aplicación localmente, debes encender tanto el servidor del Back
 ### 🖥️ Terminal 1: Servidor Backend (Django)
 Abre una terminal en la carpeta raíz del proyecto, entra a la carpeta del backend y arranca el servidor de Python:
 ```bash
-cd backend
+cd backend/proyecto/
 python manage.py runserver
 ```
 *Nota: Si utilizas un entorno virtual (venv), asegúrate de activarlo antes (`source venv/bin/activate` en Mac/Linux o `.\venv\Scripts\activate` en Windows).*
@@ -102,36 +102,6 @@ Para que el sistema de asignación de roles asocie correctamente los permisos si
    python manage.py makemigrations
    python manage.py migrate
    ```
-
-2. **Crear el Grupo de Roles en el Django Shell:**
-   ```bash
-   python manage.py shell
-   ```
-   ```python
-   from django.contrib.auth.models import Group
-   Group.objects.get_or_create(name='Empleado')
-   print("¡Grupo creado con éxito!")
-   exit()
-   ```
-
-#### 🛣️ Mapeo de Endpoints de la API
-* `POST /api/registro/` -> Registra un nuevo usuario (Solo Admin).
-* `GET /api/perfil/` -> Retorna los datos dinámicos de la cuenta autenticada para la Navbar (Autenticado).
-* `GET /api/empleados/listar/` -> Lista los usuarios registrados exceptuando administradores (Solo Admin).
-* `PUT /api/empleados/<id>/actualizar/` -> Modifica datos básicos o sobrescribe contraseña cifrada (Solo Admin).
-* `PATCH /api/empleados/<id>/estado/` -> Ejecuta bajas o altas lógicas alternando el booleano `is_active` (Solo Admin).
-* `DELETE /api/empleados/<id>/eliminar/` -> Purga física definitiva del registro en la base de datos (Solo Admin).
-
----
-
-## 🔐 Credenciales de Desarrollo (Dev)
-
-Para realizar pruebas de inicio de sesión en el entorno local, primero asegúrate de inicializar tu cuenta de superusuario en la terminal del backend:
-
-```bash
-cd backend
-python manage.py createsuperuser
-```
 
 Al momento de crearlo, utiliza los siguientes accesos estándar de prueba para que todo el equipo mantenga la misma configuración:
 
