@@ -8,13 +8,19 @@ import { useAuth } from "../../context/AuthContext";
 function LoginCard() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+
   const { login } = useAuth();
   const navigate = useNavigate();
+
   const handleLogin = async (e) => {
     e.preventDefault();
+    alert("Entró");
+
+    console.log("Entró al login");
+
 
     try {
-      // 1. Enviamos las credenciales para obtener los tokens JWT
+      // 1. Enviar credenciales al backend
       const response = await api.post("login/", {
         username,
         password,
@@ -22,8 +28,10 @@ function LoginCard() {
 
       const { access, refresh } = response.data;
 
-      // 2. Hacemos una petición rápida al endpoint de perfil usando el token obtenido
-      // para saber si es el Dueño o un Empleado antes de cargar el Dashboard
+      console.log("ACCESS:", access);
+      console.log("REFRESH:", refresh);
+
+      // 2. Consultar el perfil usando el token recibido
       const perfilResponse = await api.get("perfil/", {
         headers: {
           Authorization: `Bearer ${access}`,
@@ -32,19 +40,31 @@ function LoginCard() {
 
       const rolUsuario = perfilResponse.data.rol;
 
-      console.log("Sesión iniciada con éxito. Rol detectado:", rolUsuario);
+      console.log("ROL:", rolUsuario);
 
-      // 3. Enviamos los tres datos al AuthContext actualizado para que los gestione
+      // 3. Guardar sesión
       login(access, refresh, rolUsuario);
 
-      // 4. Redirigimos al Dashboard correspondiente
+      // 4. Ir al Dashboard
       navigate("/dashboard");
+
     } catch (error) {
-      console.error(
-        "Error al iniciar sesión:",
-        error.response?.data || error.message,
-      );
-      alert(error.response?.data?.detail || "Usuario o contraseña incorrectos");
+      console.error("ERROR COMPLETO:", error);
+
+      if (error.response) {
+        console.log("STATUS:", error.response.status);
+        console.log("DATA:", error.response.data);
+
+        alert(
+          `Error ${error.response.status}\n\n${JSON.stringify(
+            error.response.data,
+            null,
+            2
+          )}`
+        );
+      } else {
+        alert(error.message);
+      }
     }
   };
 
@@ -52,10 +72,13 @@ function LoginCard() {
     <div className="loginContainer">
       <div className="loginCard">
         <img src={initLogo} alt="PlumixERP" className="loginLogo" />
-        <h2 className="loginSubtitle">Bienvenido a PlumixERP</h2>
+
+        <h2 className="loginSubtitle">
+          Bienvenido a PlumixERP
+        </h2>
 
         <form onSubmit={handleLogin}>
-          {/* Grupo de Correo/Usuario */}
+
           <div className="inputGroup">
             <label>Usuario</label>
             <input
@@ -66,7 +89,6 @@ function LoginCard() {
             />
           </div>
 
-          {/* Grupo de Contraseña */}
           <div className="inputGroup">
             <label>Contraseña</label>
             <input
@@ -77,7 +99,6 @@ function LoginCard() {
             />
           </div>
 
-          {/* Recordar mi sesión */}
           <div className="rememberContainer">
             <label>
               <input type="checkbox" />
@@ -85,12 +106,20 @@ function LoginCard() {
             </label>
           </div>
 
-          <button type="submit" className="loginButton">
+          <button
+            type="submit"
+            className="loginButton"
+          >
             Iniciar sesión
           </button>
-          <a href="/recuperar" className="forgotPassword">
+
+          <a
+            href="/recuperar"
+            className="forgotPassword"
+          >
             ¿Olvidaste tu contraseña?
           </a>
+
         </form>
       </div>
     </div>

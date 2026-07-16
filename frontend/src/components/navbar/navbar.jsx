@@ -25,12 +25,7 @@ function Navbar() {
 
     const cargarDatosNavbar = async () => {
       try {
-        const token = localStorage.getItem("access");
-        const response = await api.get("perfil/", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        const response = await api.get("perfil/");
         if (response.data) {
           setPerfil(response.data);
         }
@@ -60,7 +55,7 @@ function Navbar() {
 
   return (
     <nav className="navbar-topbar">
-      {/* 🏷️ IZQUIERDA: Logotipo (Redirige al inicio al hacer clic) */}
+      {/*  IZQUIERDA: Logotipo (Redirige al inicio al hacer clic) */}
       <div
         className="navbar-logo-container"
         onClick={irAlInicio}
@@ -94,11 +89,11 @@ function Navbar() {
 
             {/* Círculo de avatar clásico de perfil */}
             <div className="navbar-avatar-circle">
-              {userRol === "Administrador (Dueño)" ? "👑" : "👤"}
+              {userRol === "Administrador (Dueño)" ? "jefe" : "dueño"}
             </div>
           </div>
 
-          {/* 🔽 TARJETA FLOTANTE DE INFORMACIÓN DE CUENTA (DROPDOWN) */}
+          {/*  TARJETA FLOTANTE DE INFORMACIÓN DE CUENTA (DROPDOWN) */}
           {menuAbierto && (
             <div
               className="navbar-dropdown-menu"
@@ -129,7 +124,7 @@ function Navbar() {
                   onClick={handleLogout}
                   style={{ width: "100%", justifyContent: "center" }}
                 >
-                  🚪 Cerrar sesión
+                   Cerrar sesión
                 </button>
               </div>
             </div>

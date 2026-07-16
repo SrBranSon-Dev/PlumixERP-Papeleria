@@ -24,7 +24,7 @@ class RegistroUsuarioView(APIView):
         if serializer.is_valid():
             usuario_creado = serializer.save()
             
-            # 📝 REGISTRO EN AUDITORÍA
+            # REGISTRO EN AUDITORÍA
             registrar_log(
                 request=request,
                 accion="REGISTRO_EMPLEADO",
@@ -69,7 +69,7 @@ class GestionEstadoEmpleadoView(APIView):
         empleado.is_active = bool(nuevo_estado)
         empleado.save()
         
-        # 📝 REGISTRO EN AUDITORÍA
+        # REGISTRO EN AUDITORÍA
         accion_log = "ALTA_EMPLEADO" if empleado.is_active else "BAJA_EMPLEADO"
         motivo = "activó" if empleado.is_active else "desactivó"
         registrar_log(
@@ -117,7 +117,7 @@ class ActualizarEmpleadoView(APIView):
                 usuario_actualizado.set_password(nueva_password)
                 usuario_actualizado.save()
 
-            # 📝 REGISTRO EN AUDITORÍA
+            # REGISTRO EN AUDITORÍA
             registrar_log(
                 request=request,
                 accion="EDICION_EMPLEADO",
@@ -151,7 +151,7 @@ class EliminarEmpleadoDefinitivoView(APIView):
         try:
             empleado.delete()
             
-            # 📝 REGISTRO EN AUDITORÍA
+            #  REGISTRO EN AUDITORÍA
             registrar_log(
                 request=request,
                 accion="ELIMINACION_DEFINITIVA_EMPLEADO",

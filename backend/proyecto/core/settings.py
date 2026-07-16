@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'corsheaders',
     'usuarios',
+    'proveedores',
 
 ]
 
@@ -76,7 +77,6 @@ DATABASES = {
         "ENGINE": "django.db.backends.mysql",
         "NAME": "defaultdb",
         "USER": "avnadmin",
-        # Se agregó la coma faltante al final de esta línea
         "PASSWORD": os.getenv("PASS_PART1", "") + os.getenv("PASS_PART2", ""),
         "HOST": "proyecto-plumixerp.a.aivencloud.com",
         "PORT": "11024",
@@ -143,9 +143,9 @@ REST_FRAMEWORK = {
 
 SIMPLE_JWT = {
 
-    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=30),
+    "ACCESS_TOKEN_LIFETIME": timedelta(hours=24),
 
-    "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=7),
 
 }
 

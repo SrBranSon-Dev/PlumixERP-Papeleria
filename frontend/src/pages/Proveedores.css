@@ -1,0 +1,266 @@
+/* ==========================================
+   CONTENEDOR GENERAL
+========================================== */
+
+.proveedores-container{
+    padding:40px;
+    background:#f4f6f9;
+    min-height:100vh;
+    font-family:"Segoe UI",Tahoma,Geneva,Verdana,sans-serif;
+}
+
+
+/* ==========================================
+   ENCABEZADO
+========================================== */
+
+.proveedores-header{
+    margin-bottom:30px;
+}
+
+.proveedores-header h1{
+    font-size:30px;
+    color:#1a202c;
+    margin-bottom:8px;
+}
+
+.proveedores-header p{
+    color:#4a5568;
+    font-size:15px;
+}
+
+
+/* ==========================================
+   FORMULARIO
+========================================== */
+
+.proveedores-form{
+    background:#ffffff;
+    padding:30px;
+    border-radius:12px;
+    box-shadow:0 2px 10px rgba(0,0,0,.08);
+    margin-bottom:30px;
+}
+
+.form-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:20px;
+}
+
+.form-grid input{
+    width:100%;
+    padding:12px 15px;
+    border:1px solid #d1d5db;
+    border-radius:8px;
+    font-size:15px;
+    transition:.3s;
+    box-sizing:border-box;
+}
+
+.form-grid input:focus{
+    outline:none;
+    border-color:#c92424;
+    box-shadow:0 0 6px rgba(201,36,36,.25);
+}
+
+
+/* ==========================================
+   BOTÓN GUARDAR
+========================================== */
+
+.form-actions{
+    display:flex;
+    justify-content:flex-end;
+    margin-top:25px;
+}
+
+.btn-guardar{
+    background:#c92424;
+    color:#ffffff;
+    border:none;
+    border-radius:8px;
+    padding:12px 28px;
+    cursor:pointer;
+    font-size:15px;
+    font-weight:600;
+    transition:.3s;
+}
+
+.btn-guardar:hover{
+    background:#a71d1d;
+}
+
+
+/* ==========================================
+   TARJETA TABLA
+========================================== */
+
+.tabla-card{
+    background:#ffffff;
+    padding:30px;
+    border-radius:12px;
+    box-shadow:0 2px 10px rgba(0,0,0,.08);
+}
+
+.tabla-card h2{
+    color:#1a202c;
+    margin-bottom:20px;
+}
+
+
+/* ==========================================
+   TABLA
+========================================== */
+
+.tabla-proveedores{
+    width:100%;
+    border-collapse:collapse;
+}
+
+.tabla-proveedores th{
+    background:#1a1a2e;
+    color:#ffffff;
+    padding:14px;
+    text-align:left;
+    font-size:15px;
+}
+
+.tabla-proveedores td{
+    padding:14px;
+    border-bottom:1px solid #e5e7eb;
+}
+
+.tabla-proveedores tbody tr:hover{
+    background:#f8fafc;
+}
+
+
+/* ==========================================
+   BOTONES TABLA
+========================================== */
+
+.btn-editar{
+    background:#2563eb;
+    color:#ffffff;
+    border:none;
+    padding:8px 14px;
+    border-radius:6px;
+    cursor:pointer;
+    margin-right:8px;
+    transition:.3s;
+}
+
+.btn-editar:hover{
+    background:#1d4ed8;
+}
+
+.btn-eliminar{
+    background:#dc2626;
+    color:#ffffff;
+    border:none;
+    padding:8px 14px;
+    border-radius:6px;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.btn-eliminar:hover{
+    background:#b91c1c;
+}
+
+
+/* ==========================================
+   RESPONSIVE
+========================================== */
+
+@media (max-width:768px){
+
+    .proveedores-container{
+        padding:20px;
+    }
+
+    .form-grid{
+        grid-template-columns:1fr;
+    }
+
+    .tabla-card{
+        overflow-x:auto;
+    }
+
+}
+/* ==========================================
+   BUSCADOR
+========================================== */
+
+.busqueda{
+    margin-bottom:25px;
+}
+
+.busqueda input{
+    width:100%;
+    padding:14px 18px;
+    border:1px solid #d1d5db;
+    border-radius:8px;
+    font-size:15px;
+    background:white;
+    box-sizing:border-box;
+}
+
+.busqueda input:focus{
+    outline:none;
+    border-color:#c92424;
+    box-shadow:0 0 6px rgba(201,36,36,.25);
+}
+
+.contador{
+    color:#6b7280;
+    margin-bottom:20px;
+    font-size:14px;
+}
+
+/* ==========================================
+   CONTADOR
+========================================== */
+
+.contador{
+    color:#6b7280;
+    font-size:14px;
+    margin-bottom:20px;
+}
+
+/* ==========================================
+   ESTADOS
+========================================== */
+
+.estado-activo{
+    background:#dcfce7;
+    color:#166534;
+    padding:6px 12px;
+    border-radius:20px;
+    font-size:13px;
+    font-weight:600;
+}
+
+.estado-inactivo{
+    background:#fee2e2;
+    color:#991b1b;
+    padding:6px 12px;
+    border-radius:20px;
+    font-size:13px;
+    font-weight:600;
+}
+.btn-limpiar{
+    background:#6b7280;
+    color:white;
+    border:none;
+    padding:12px 28px;
+    border-radius:8px;
+    cursor:pointer;
+    margin-left:10px;
+    transition:.3s;
+}
+
+.btn-limpiar:hover{
+    background:#4b5563;
+}
