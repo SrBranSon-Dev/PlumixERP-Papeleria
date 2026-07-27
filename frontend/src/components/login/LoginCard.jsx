@@ -14,10 +14,6 @@ function LoginCard() {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    alert("Entró");
-
-    console.log("Entró al login");
-
 
     try {
       // 1. Enviar credenciales al backend
@@ -47,7 +43,6 @@ function LoginCard() {
 
       // 4. Ir al Dashboard
       navigate("/dashboard");
-
     } catch (error) {
       console.error("ERROR COMPLETO:", error);
 
@@ -59,8 +54,8 @@ function LoginCard() {
           `Error ${error.response.status}\n\n${JSON.stringify(
             error.response.data,
             null,
-            2
-          )}`
+            2,
+          )}`,
         );
       } else {
         alert(error.message);
@@ -73,12 +68,9 @@ function LoginCard() {
       <div className="loginCard">
         <img src={initLogo} alt="PlumixERP" className="loginLogo" />
 
-        <h2 className="loginSubtitle">
-          Bienvenido a PlumixERP
-        </h2>
+        <h2 className="loginSubtitle">Bienvenido a PlumixERP</h2>
 
         <form onSubmit={handleLogin}>
-
           <div className="inputGroup">
             <label>Usuario</label>
             <input
@@ -106,20 +98,13 @@ function LoginCard() {
             </label>
           </div>
 
-          <button
-            type="submit"
-            className="loginButton"
-          >
+          <button type="submit" className="loginButton">
             Iniciar sesión
           </button>
 
-          <a
-            href="/recuperar"
-            className="forgotPassword"
-          >
+          <a href="/recuperar" className="forgotPassword">
             ¿Olvidaste tu contraseña?
           </a>
-
         </form>
       </div>
     </div>

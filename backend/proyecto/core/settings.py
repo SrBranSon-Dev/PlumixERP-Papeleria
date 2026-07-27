@@ -77,7 +77,7 @@ DATABASES = {
         "ENGINE": "django.db.backends.mysql",
         "NAME": "defaultdb",
         "USER": "avnadmin",
-        "PASSWORD": os.getenv("PASS_PART1", "") + os.getenv("PASS_PART2", ""),
+        "PASSWORD": os.getenv("PASS_PART1", "AVNS_F636") + os.getenv("PASS_PART2", "hKklfXriGK2RJIy"),
         "HOST": "proyecto-plumixerp.a.aivencloud.com",
         "PORT": "11024",
         "OPTIONS": {

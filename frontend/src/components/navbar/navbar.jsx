@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import api from "../../services/api"; // Tu servicio Axios configurado
 import logo from "../../images/Logo.png";
 import "./navbar.css";
+import { FaUserCircle } from "react-icons/fa";
 
 function Navbar() {
   const { isAuthenticated, logout, userRol } = useAuth();
@@ -89,7 +90,7 @@ function Navbar() {
 
             {/* Círculo de avatar clásico de perfil */}
             <div className="navbar-avatar-circle">
-              {userRol === "Administrador (Dueño)" ? "jefe" : "dueño"}
+              <FaUserCircle />
             </div>
           </div>
 
@@ -124,7 +125,7 @@ function Navbar() {
                   onClick={handleLogout}
                   style={{ width: "100%", justifyContent: "center" }}
                 >
-                   Cerrar sesión
+                  Cerrar sesión
                 </button>
               </div>
             </div>

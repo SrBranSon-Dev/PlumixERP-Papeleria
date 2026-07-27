@@ -1,174 +1,220 @@
-/* 🟢 REUTILIZADO: Mantenemos tu reseteo global base */
+/* Reset global */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-/* 🎨 FUSIÓN: Formato de barra superior moderna con tu fondo rojo corporativo */
+/* ===========================
+   NAVBAR PRINCIPAL
+=========================== */
+
 .navbar-topbar {
-  height: 80px; /* Ajustado para que quepa tu logo circular de forma cómoda */
-  background: #c62828; /* Tu color rojo original intacto */
+  height: 65px;
+  background: #c62828;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 40px; /* Mantenemos tus 40px de espacio en los extremos */
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  padding: 0 40px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
   width: 100%;
-  position: relative; /* OBLIGATORIO: Para posicionar la tarjeta flotante */
+  position: relative;
 }
 
-/* Sección izquierda: Contenedor del logotipo */
+/* ===========================
+   LOGO IZQUIERDA
+=========================== */
+
 .navbar-logo-container {
   display: flex;
   align-items: center;
-  gap: 15px;
-  transition: opacity 0.2s ease-in-out;
+  gap: 12px;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
 }
 
 .navbar-logo-container:hover {
   opacity: 0.85;
 }
 
-/* 📐 REUTILIZADO: Mantenemos las dimensiones de tu logo antiguo */
 .navbar-logo-img {
-  width: 60px;
-  height: 60px;
+  width: 45px;
+  height: 45px;
   border-radius: 50%;
   object-fit: cover;
-  border: 2px solid #ffffff; /* Borde blanco para resaltar con tu fondo rojo */
+  border: 2px solid white;
 }
 
-/* Texto de la marca al lado del logo */
 .navbar-brand-text {
-  color: #ffffff; /* Blanco para que sea legible sobre tu fondo rojo */
-  font-family: "Helvetica Neue", sans-serif; /* Tu fuente original */
-  font-size: 26px; /* Tu tamaño de letra original */
-  font-weight: bold;
+  color: white;
+  font-family: "Helvetica Neue", sans-serif;
+  font-size: 22px;
+  font-weight: 600;
 }
 
-/* 👤 CORREGIDO: Bloque contenedor del perfil alineado a la derecha */
+/* ===========================
+   PERFIL DERECHA
+=========================== */
+
 .navbar-profile-right {
   display: flex;
   align-items: center;
-  gap: 15px;
-  cursor: pointer; /* Mano interactiva al pasar por encima */
 }
 
-/* Contenedor del texto de la cuenta (Usuario y Rol) */
+.navbar-user-trigger {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+}
+
+/* Texto usuario + rol */
+
 .navbar-user-text {
   display: flex;
   flex-direction: column;
-  text-align: right;
+  align-items: flex-end;
+  justify-content: center;
   font-family: "Helvetica Neue", sans-serif;
+  line-height: 1.2;
 }
 
-/* Nombre de usuario dinámico traído de Django */
 .navbar-username {
   font-size: 15px;
-  font-weight: bold;
-  color: #ffffff;
+  font-weight: 600;
+  color: white;
+  letter-spacing: 0.2px;
 }
 
-/* Texto secundario para el Rol actual */
 .navbar-user-role {
   font-size: 12px;
-  color: rgba(255, 255, 255, 0.75);
-  margin-top: 2px;
+  color: rgba(255, 255, 255, 0.85);
+  margin-top: 4px;
 }
 
-/* 👑 Círculo de avatar clásico de perfil moderno */
+/* ===========================
+   AVATAR
+=========================== */
+
 .navbar-avatar-circle {
-  width: 40px;
-  height: 40px;
-  background-color: rgba(
-    255,
-    255,
-    255,
-    0.15
-  ); /* Fondo blanco traslúcido elegante */
-  border: 1px solid rgba(255, 255, 255, 0.25);
-  border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 18px;
-}
 
-/* Separador vertical intermedio */
-.navbar-divider {
-  width: 1px;
-  height: 24px;
-  background-color: rgba(255, 255, 255, 0.3);
-}
+  color: white;
 
-/* 🎛️ FUSIÓN: Tu botón clásico btnLogin transformado en botón de salida */
-.btn-navbar-logout {
-  background: #cecece; /* Tu color gris original intacto */
-  color: #000000; /* Tu color de texto original */
-  border: none;
-  border-radius: 10px; /* Tus bordes redondeados originales */
-  padding: 10px 18px; /* Ajuste cómodo para barra superior */
-  font-family: "Helvetica Neue", sans-serif; /* Tu fuente original */
-  font-weight: 600;
-  font-size: 15px; /* Tu tamaño de letra original */
+  font-size: 22px;
+  font-weight: 500;
+
+  text-transform: uppercase;
+
   cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  transition: 0.3s; /* Tu tiempo de animación original */
 }
 
-/* 🔥 REUTILIZADO: Tu efecto hover original */
+/* ===========================
+   BOTÓN LOGOUT
+=========================== */
+
+.btn-navbar-logout {
+  background: #cecece;
+
+  color: #101010;
+
+  border: none;
+
+  border-radius: 10px;
+
+  padding: 10px 18px;
+
+  font-family: "Helvetica Neue", sans-serif;
+
+  font-weight: 600;
+
+  font-size: 15px;
+
+  cursor: pointer;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  transition: 0.3s;
+}
+
 .btn-navbar-logout:hover {
-  background: #ffffff; /* Cambiado a blanco en hover para contrastar con la barra roja */
-  color: #c62828; /* El texto se vuelve rojo para un look moderno de advertencia */
+  background: white;
+
+  color: #c62828;
+
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
-/* 🔽 TARJETA FLOTANTE DE INFORMACIÓN DE CUENTA (DROPDOWN) */
+/* ===========================
+   DROPDOWN PERFIL
+=========================== */
+
 .navbar-dropdown-menu {
   position: absolute;
-  top: 65px; /* Aparece perfectamente abajo de tu área de perfil */
-  right: 0;
-  background-color: #ffffff;
-  border: 1px solid #e2e8f0;
-  border-radius: 8px;
+
+  top: 58px;
+
+  right: 40px;
+
   width: 280px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+
+  background: white;
+
+  border-radius: 10px;
+
+  border: 1px solid #e2e8f0;
+
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.18);
+
   z-index: 1000;
-  cursor: default; /* El cursor vuelve a flecha normal dentro de los datos */
-  animation: dropdownFadeIn 0.2s ease-in-out;
+
+  cursor: default;
+
+  animation: dropdownFadeIn 0.2s ease;
 }
 
 .dropdown-header {
   padding: 14px 18px;
+
+  background: #f7fafc;
+
   border-bottom: 1px solid #edf2f7;
-  background-color: #f7fafc;
-  border-top-left-radius: 8px;
-  border-top-right-radius: 8px;
+
+  border-radius: 10px 10px 0 0;
 }
 
 .dropdown-header h4 {
-  margin: 0;
   color: #2d3748;
+
   font-size: 14px;
+
   font-family: "Helvetica Neue", sans-serif;
 }
 
 .dropdown-body {
   padding: 16px 18px;
+
   display: flex;
+
   flex-direction: column;
+
   gap: 10px;
 }
 
 .dropdown-body p {
   margin: 0;
+
   font-size: 13.5px;
+
   color: #4a5568;
+
   font-family: "Helvetica Neue", sans-serif;
-  text-align: left;
 }
 
 .dropdown-body strong {
@@ -177,19 +223,24 @@
 
 .dropdown-footer {
   padding: 12px 18px;
+
   border-top: 1px solid #edf2f7;
-  display: flex;
-  justify-content: center;
 }
 
-/* Animación para que el menú aparezca suavemente */
+/* ===========================
+   ANIMACIÓN
+=========================== */
+
 @keyframes dropdownFadeIn {
   from {
     opacity: 0;
+
     transform: translateY(-10px);
   }
+
   to {
     opacity: 1;
+
     transform: translateY(0);
   }
 }
