@@ -1,0 +1,49 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Plumix ERP</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+          rel="stylesheet">
+</head>
+
+<body>
+
+<nav class="navbar navbar-dark mb-4" style="background-color:#C62828;">
+
+    <div class="container d-flex align-items-center">
+
+        <img src="{% static 'img/logo.png' %}"
+             alt="logo Plumix"
+             width="70"
+             height="70"
+             class="me-3">
+
+        <div>
+
+            <h4 class="mb-0 text-white">Plumix ERP</h4>
+
+            <small class="text-white">
+                Gestión de Productos
+            </small>
+
+        </div>
+
+    </div>
+
+</nav>
+
+<div class="container">
+
+    {% block contenido %}
+    {% endblock %}
+
+</div>
+
+</body>
+</html>

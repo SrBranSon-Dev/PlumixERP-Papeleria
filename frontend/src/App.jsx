@@ -6,6 +6,7 @@ import { Routes, Route, useLocation } from "react-router-dom";
 import Dashboard from "./pages/dashboard/dashboard";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import Proveedores from "./pages/Proveedores";
+import Productos from "./pages/Productos";
 
 // Rutas
 import RegistroEmpleados from "./pages/registro_empleados/registro_empleados";
@@ -60,6 +61,16 @@ function App() {
           element={
             <ProtectedRoute>
               <Proveedores />
+            </ProtectedRoute>
+          }
+        />
+
+
+        <Route
+          path="/productos"
+          element={
+            <ProtectedRoute>
+                <Productos />
             </ProtectedRoute>
           }
         />

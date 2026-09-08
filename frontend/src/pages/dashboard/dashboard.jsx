@@ -46,7 +46,12 @@ function Dashboard() {
               >
                 <span className="sidebar-icon">🚚</span> Proveedores
               </button>
-
+              <button
+                className="sidebar-link"
+                onClick={() => navigate("/productos")}
+              >
+                <span className="sidebar-icon">📦</span> Productos
+              </button>
             </>
           )}
         </nav>

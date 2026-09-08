@@ -29,9 +29,9 @@ api.interceptors.response.use(
       localStorage.removeItem("refresh"); // Si también usas token de refresco
 
       // Redirigimos al usuario al login para evitar el mensaje flotante
-      if (window.location.pathname !== "/login") {
-        window.location.href = "/login";
-      }
+      if (window.location.pathname !== "/") {
+  window.location.href = "/";
+}
     }
 
     return Promise.reject(error);

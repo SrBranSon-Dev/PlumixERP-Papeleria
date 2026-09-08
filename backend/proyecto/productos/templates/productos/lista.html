@@ -1,0 +1,194 @@
+{% extends 'productos/base.html' %}
+
+{% block contenido %}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+
+    <h2>Productos</h2>
+
+    <a href="{% url 'productos:crear' %}" class="btn btn-success">
+
+        + Nuevo producto
+
+    </a>
+
+</div>
+
+<table class="table table-striped table-hover align-middle">
+
+    <thead class="table-light">
+
+        <tr>
+
+            <th>Código</th>
+            <th>Producto</th>
+            <th>Categoría</th>
+            <th>Proveedor</th>
+            <th>Precio Compra</th>
+            <th>Precio Venta</th>
+            <th>Stock</th>
+            <th></th>
+
+        </tr>
+
+    </thead>
+
+    <tbody>
+
+        {% for producto in productos %}
+
+        <tr>
+
+            <td>{{ producto.codigo }}</td>
+
+            <td>{{ producto.nombre }}</td>
+
+            <td>{{ producto.categoria.nombre }}</td>
+
+            <td>{{ producto.proveedor.nombre }}</td>
+
+            <td>${{ producto.precio_compra }}</td>
+
+            <td>${{ producto.precio_venta }}</td>
+
+            <td>{{ producto.stock }}</td>
+
+            <td class="text-end">
+
+                <a href="{% url 'productos:editar' producto.pk %}"
+
+                    class="btn btn-sm btn-outline-primary">
+
+                    Editar
+
+                </a>
+
+                <form method="post"
+
+                    action="{% url 'productos:eliminar' producto.pk %}"
+
+                    class="d-inline"
+
+                    onsubmit="return confirm('¿Eliminar el producto {{ producto.nombre }}?');">
+
+                    {% csrf_token %}
+
+                    <button type="submit"
+
+                        class="btn btn-sm btn-outline-danger">
+
+                        Eliminar
+
+                    </button>
+
+                </form>
+
+            </td>
+
+        </tr>
+
+        {% empty %}
+
+        <tr>
+
+            <td colspan="8"
+
+                class="text-center text-muted">
+
+                No hay productos registrados.
+
+            </td>
+
+        </tr>
+
+        {% endfor %}
+
+    </tbody>
+
+</table>
+
+{% if productos.paginator.num_pages > 1 %}
+
+<nav>
+
+    <ul class="pagination justify-content-center">
+
+        {% if productos.has_previous %}
+
+        <li class="page-item">
+
+            <a class="page-link"
+
+                href="?page={{ productos.previous_page_number }}">
+
+                « Anterior
+
+            </a>
+
+        </li>
+
+        {% else %}
+
+        <li class="page-item disabled">
+
+            <span class="page-link">
+
+                « Anterior
+
+            </span>
+
+        </li>
+
+        {% endif %}
+
+        <li class="page-item active">
+
+            <span class="page-link">
+
+                Página {{ productos.number }}
+
+                de
+
+                {{ productos.paginator.num_pages }}
+
+            </span>
+
+        </li>
+
+        {% if productos.has_next %}
+
+        <li class="page-item">
+
+            <a class="page-link"
+
+                href="?page={{ productos.next_page_number }}">
+
+                Siguiente »
+
+            </a>
+
+        </li>
+
+        {% else %}
+
+        <li class="page-item disabled">
+
+            <span class="page-link">
+
+                Siguiente »
+
+            </span>
+
+        </li>
+
+        {% endif %}
+
+    </ul>
+
+</nav>
+
+{% endif %}
+
+{% endblock %}
+
+
