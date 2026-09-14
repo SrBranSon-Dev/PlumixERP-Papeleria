@@ -2,6 +2,7 @@ import "./App.css";
 import Navbar from "./components/navbar/navbar";
 import Footer from "./components/footer/footer";
 import LoginCard from "./components/login/LoginCard";
+import Chatbot from "./components/Chatbot";
 import { Routes, Route, useLocation } from "react-router-dom";
 import Dashboard from "./pages/dashboard/dashboard";
 import ProtectedRoute from "./routes/ProtectedRoute";
@@ -78,6 +79,7 @@ function App() {
       </Routes>
 
       {showNavAndFooter && <Footer />}
+      <Chatbot />
 
     </div>
   );
