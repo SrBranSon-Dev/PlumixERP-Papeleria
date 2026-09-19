@@ -1,13 +1,13 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import api from "../../services/api"; // Tu servicio Axios configurado
-import "./registro_empleados.css"; // Extensión .css integrada para evitar fallos en Vite
+import "./registro_empleados.css";
 
 function RegistroEmpleados() {
   // Estados para la lista de empleados y control de edición
   const [empleados, setEmpleados] = useState([]);
   const [editandoId, setEditandoId] = useState(null);
 
-  // Estados del formulario unificado (incluyendo teléfono y es_admin)
+  // Estados del formulario unificado
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -18,8 +18,8 @@ function RegistroEmpleados() {
   const [mensaje, setMensaje] = useState("");
   const [error, setError] = useState("");
 
-  // 1. LEER: Cargar la lista de empleados desde Django (Incluye token JWT)
-  const cargarEmpleados = async () => {
+  // 1. LEER: Cargar la lista de empleados desde Django (Memoizado con useCallback)
+  const cargarEmpleados = useCallback(async () => {
     try {
       const token = localStorage.getItem("access");
       const response = await api.get("empleados/listar/", {
@@ -32,13 +32,23 @@ function RegistroEmpleados() {
       console.error("Error al cargar empleados:", err);
       setError("No se pudo obtener la lista de empleados.");
     }
-  };
-
-  useEffect(() => {
-    cargarEmpleados();
   }, []);
 
-  // 2. CREAR O EDITAR: Envío unificado al backend (Incluye token JWT)
+  useEffect(() => {
+    const cargar = setTimeout(cargarEmpleados, 0);
+    return () => clearTimeout(cargar);
+  }, [cargarEmpleados]);
+
+  const limpiarFormulario = () => {
+    setEditandoId(null);
+    setUsername("");
+    setEmail("");
+    setPassword("");
+    setTelefono("");
+    setEsAdmin(false);
+  };
+
+  // 2. CREAR O EDITAR
   const handleSubmit = async (e) => {
     e.preventDefault();
     setMensaje("");
@@ -56,7 +66,7 @@ function RegistroEmpleados() {
 
     try {
       if (editandoId) {
-        // MODO EDICIÓN (PUT): empleados/<id>/actualizar/
+        // MODO EDICIÓN (PUT)
         if (!password) delete payload.password;
 
         const response = await api.put(
@@ -66,11 +76,11 @@ function RegistroEmpleados() {
             headers: {
               Authorization: `Bearer ${token}`,
             },
-          },
+          }
         );
         setMensaje(response.data.mensaje || "Empleado actualizado con éxito.");
       } else {
-        // MODO CREACIÓN (POST): registro/
+        // MODO CREACIÓN (POST)
         const response = await api.post("registro/", payload, {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -80,12 +90,12 @@ function RegistroEmpleados() {
       }
 
       limpiarFormulario();
-      cargarEmpleados(); // Recargar la tabla automáticamente
+      cargarEmpleados();
     } catch (err) {
       console.error(err);
       setError(
         err.response?.data?.detail ||
-          "Error al procesar la solicitud. Verifica los campos.",
+          "Error al procesar la solicitud. Verifica los campos."
       );
     }
   };
@@ -93,14 +103,14 @@ function RegistroEmpleados() {
   // Cargar datos en el formulario para editar
   const iniciarEdicion = (empleado) => {
     setEditandoId(empleado.id);
-    setUsername(empleado.username);
+    setUsername(empleado.username || "");
     setEmail(empleado.email || "");
-    setPassword(""); // Se deja vacío por seguridad
+    setPassword("");
     setTelefono(empleado.telefono || "");
     setEsAdmin(empleado.es_admin || false);
   };
 
-  // 3. CAMBIO DE ESTADO (PATCH): Alta o Baja lógica (is_active) (Incluye token JWT)
+  // 3. CAMBIO DE ESTADO (PATCH)
   const toggleEstado = async (id, estadoActual, nombre) => {
     const accionTexto = estadoActual ? "desactivar" : "activar";
     if (
@@ -118,7 +128,7 @@ function RegistroEmpleados() {
             headers: {
               Authorization: `Bearer ${token}`,
             },
-          },
+          }
         );
         setMensaje(`Usuario ${nombre} modificado correctamente.`);
         cargarEmpleados();
@@ -129,10 +139,10 @@ function RegistroEmpleados() {
     }
   };
 
-  // 💥 4. ELIMINACIÓN PERMANENTE (DELETE): Borra el registro físico en Django
+  // 4. ELIMINACIÓN PERMANENTE (DELETE)
   const handleEliminarParaSiempre = async (id, nombre) => {
     const confirmacion = window.confirm(
-      `⚠️ ADVERTENCIA CRÍTICA: ¿Estás seguro de que deseas eliminar para siempre al empleado "${nombre}"?\n\nEsta acción NO se puede deshacer y borrará todo su historial.`,
+      `⚠️ ADVERTENCIA CRÍTICA: ¿Estás seguro de que deseas eliminar para siempre al empleado "${nombre}"?\n\nEsta acción NO se puede deshacer y borrará todo su historial.`
     );
 
     if (confirmacion) {
@@ -147,25 +157,16 @@ function RegistroEmpleados() {
           },
         });
 
-        setMensaje(response.data.mensaje);
-        cargarEmpleados(); // Refrescar la tabla inmediatamente
+        setMensaje(response.data.mensaje || "Empleado eliminado correctamente.");
+        cargarEmpleados();
       } catch (err) {
         console.error(err);
         setError(
           err.response?.data?.error ||
-            "Error al intentar eliminar permanentemente al usuario.",
+            "Error al intentar eliminar permanentemente al usuario."
         );
       }
     }
-  };
-
-  const limpiarFormulario = () => {
-    setEditandoId(null);
-    setUsername("");
-    setEmail("");
-    setPassword("");
-    setTelefono("");
-    setEsAdmin(false);
   };
 
   return (
@@ -257,7 +258,7 @@ function RegistroEmpleados() {
         </form>
       </div>
 
-      {/* Tabla de Gestión del CRUD */}
+      {/* Tabla de Gestión */}
       <div className="tabla-section" style={{ marginTop: "40px" }}>
         <h3>Trabajadores Registrados</h3>
         <table

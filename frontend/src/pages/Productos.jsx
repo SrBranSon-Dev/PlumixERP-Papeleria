@@ -38,19 +38,19 @@ function Productos() {
     });
   };
 
-  const cargarProductos = async () => {
-  try {
-    const respuesta = await api.get("productos/api/productos/");
+  async function cargarProductos() {
+    try {
+      const respuesta = await api.get("productos/api/productos/");
 
-    console.log("PRODUCTOS RECIBIDOS:", respuesta.data);
+      console.log("PRODUCTOS RECIBIDOS:", respuesta.data);
 
-    setProductos(respuesta.data);
-  } catch (error) {
-    console.error("ERROR AL CARGAR PRODUCTOS:", error);
-    console.error("RESPUESTA:", error.response?.data);
-    console.error("ESTADO:", error.response?.status);
+      setProductos(respuesta.data);
+    } catch (error) {
+      console.error("ERROR AL CARGAR PRODUCTOS:", error);
+      console.error("RESPUESTA:", error.response?.data);
+      console.error("ESTADO:", error.response?.status);
+    }
   }
-};
 
   const cargarCategorias = async () => {
     try {
