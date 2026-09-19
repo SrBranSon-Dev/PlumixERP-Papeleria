@@ -19,16 +19,25 @@ function Proveedores() {
     estado: true,
   });
 
-  useEffect(() => {
-    cargarProveedores();
-  }, []);
+ useEffect(() => {
+  const cargarProveedores = async () => {
+    try {
+      const respuesta = await api.get("proveedores/");
+      setProveedores(respuesta.data);
+    } catch (error) {
+      console.error("Error al cargar proveedores:", error);
+    }
+  };
 
-  const manejarCambio = (e) => {
+  cargarProveedores();
+}, []); // Se ejecuta únicamente 1 vez al cargar el componente
+
+  function manejarCambio(e) {
     setFormulario({
       ...formulario,
       [e.target.name]: e.target.value,
     });
-  };
+  }
 
   const cargarProveedores = async () => {
     try {
