@@ -98,7 +98,7 @@ Para que el sistema de asignación de roles asocie correctamente los permisos si
 
 1. **Construir y aplicar esquemas de tablas:**
    ```bash
-   cd backend
+   cd backend/proyecto/
    python manage.py makemigrations
    python manage.py migrate
    ```
