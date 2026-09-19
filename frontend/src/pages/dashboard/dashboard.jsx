@@ -33,13 +33,6 @@ function Dashboard() {
               >
                 <span className="sidebar-icon">👥</span> Gestión de Personal
               </button>
-
-              <button
-                className="sidebar-link"
-                onClick={() => navigate("/admin/auditoria")}
-              >
-                <span className="sidebar-icon">📝</span> Auditoría de Logs
-              </button>
               <button
                 className="sidebar-link"
                 onClick={() => navigate("/proveedores")}
@@ -51,6 +44,12 @@ function Dashboard() {
                 onClick={() => navigate("/productos")}
               >
                 <span className="sidebar-icon">📦</span> Productos
+              </button>
+              <button
+                className="sidebar-link"
+                onClick={() => navigate("/admin/auditoria")}
+              >
+                <span className="sidebar-icon">📝</span> Auditoría de Logs
               </button>
             </>
           )}
