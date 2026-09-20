@@ -18,7 +18,6 @@ class ProductoAdmin(admin.ModelAdmin):
         "proveedor",
         "precio_compra",
         "precio_venta",
-        "stock",
         "activo",
     )
 
@@ -39,7 +38,6 @@ class InventarioAdmin(admin.ModelAdmin):
     list_display = (
         "producto",
         "cantidad",
-        "stock_minimo",
         "ubicacion",
         "fecha_actualizacion",
     )

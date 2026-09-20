@@ -17,8 +17,6 @@ class ProductoForm(forms.ModelForm):
             "proveedor",
             "precio_compra",
             "precio_venta",
-            "stock",
-            "stock_minimo",
             "activo",
         ]
 
@@ -52,14 +50,6 @@ class ProductoForm(forms.ModelForm):
             ),
 
             "precio_venta": forms.NumberInput(
-                attrs={"class": "form-control"}
-            ),
-
-            "stock": forms.NumberInput(
-                attrs={"class": "form-control"}
-            ),
-
-            "stock_minimo": forms.NumberInput(
                 attrs={"class": "form-control"}
             ),
 

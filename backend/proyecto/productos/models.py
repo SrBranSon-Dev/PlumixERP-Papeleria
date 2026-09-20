@@ -1,5 +1,6 @@
 from django.db import models
 from proveedores.models import Proveedor
+import random
 
 
 # ENTIDAD: CATEGORIA
@@ -26,7 +27,8 @@ class Categoria(models.Model):
 class Producto(models.Model):
     codigo = models.CharField(
         max_length=20,
-        unique=True
+        unique=True,
+        blank=True
     )
 
     nombre = models.CharField(
@@ -60,14 +62,6 @@ class Producto(models.Model):
         decimal_places=2
     )
 
-    stock = models.PositiveIntegerField(
-        default=0
-    )
-
-    stock_minimo = models.PositiveIntegerField(
-        default=5
-    )
-
     activo = models.BooleanField(
         default=True
     )
@@ -79,6 +73,17 @@ class Producto(models.Model):
     fecha_actualizacion = models.DateTimeField(
         auto_now=True
     )
+
+    def save(self, *args, **kwargs):
+        if not self.codigo:
+            while True:
+                codigo = str(random.randint(100000000000, 999999999999))
+
+                if not Producto.objects.filter(codigo=codigo).exists():
+                    self.codigo = codigo
+                    break
+
+        super().save(*args, **kwargs)
 
     class Meta:
         db_table = "producto"

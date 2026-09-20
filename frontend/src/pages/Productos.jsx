@@ -11,15 +11,12 @@ function Productos() {
   const [busqueda, setBusqueda] = useState("");
 
   const [formulario, setFormulario] = useState({
-    codigo: "",
     nombre: "",
     descripcion: "",
     categoria: "",
     proveedor: "",
     precio_compra: "",
     precio_venta: "",
-    stock: "",
-    stock_minimo: "",
     activo: true,
   });
 
@@ -72,15 +69,12 @@ function Productos() {
 
   const limpiarFormulario = () => {
     setFormulario({
-      codigo: "",
       nombre: "",
       descripcion: "",
       categoria: "",
       proveedor: "",
       precio_compra: "",
       precio_venta: "",
-      stock: "",
-      stock_minimo: "",
       activo: true,
     });
 
@@ -89,14 +83,11 @@ function Productos() {
 
   const guardarProducto = async () => {
     if (
-      !formulario.codigo.trim() ||
       !formulario.nombre.trim() ||
       !formulario.categoria ||
       !formulario.proveedor ||
       !formulario.precio_compra ||
-      !formulario.precio_venta ||
-      formulario.stock === "" ||
-      formulario.stock_minimo === ""
+      !formulario.precio_venta
     ) {
       alert("Completa todos los campos obligatorios.");
       return;
@@ -104,14 +95,14 @@ function Productos() {
 
     try {
       const datos = {
-        ...formulario,
-        categoria: Number(formulario.categoria),
-        proveedor: Number(formulario.proveedor),
-        precio_compra: formulario.precio_compra,
-        precio_venta: formulario.precio_venta,
-        stock: Number(formulario.stock),
-        stock_minimo: Number(formulario.stock_minimo),
-      };
+  nombre: formulario.nombre,
+  descripcion: formulario.descripcion,
+  categoria: Number(formulario.categoria),
+  proveedor: Number(formulario.proveedor),
+  precio_compra: formulario.precio_compra,
+  precio_venta: formulario.precio_venta,
+  activo: formulario.activo,
+};
 
       if (idEditar) {
         await api.put(
@@ -161,15 +152,12 @@ function Productos() {
 
   const editarProducto = (producto) => {
     setFormulario({
-      codigo: producto.codigo,
       nombre: producto.nombre,
       descripcion: producto.descripcion || "",
       categoria: producto.categoria,
       proveedor: producto.proveedor,
       precio_compra: producto.precio_compra,
       precio_venta: producto.precio_venta,
-      stock: producto.stock,
-      stock_minimo: producto.stock_minimo,
       activo: producto.activo,
     });
 
@@ -246,14 +234,6 @@ function Productos() {
 
           <input
             type="text"
-            name="codigo"
-            placeholder="Código"
-            value={formulario.codigo}
-            onChange={manejarCambio}
-          />
-
-          <input
-            type="text"
             name="nombre"
             placeholder="Nombre del producto"
             value={formulario.nombre}
@@ -319,22 +299,6 @@ function Productos() {
             name="precio_venta"
             placeholder="Precio de venta"
             value={formulario.precio_venta}
-            onChange={manejarCambio}
-          />
-
-          <input
-            type="number"
-            name="stock"
-            placeholder="Stock"
-            value={formulario.stock}
-            onChange={manejarCambio}
-          />
-
-          <input
-            type="number"
-            name="stock_minimo"
-            placeholder="Stock mínimo"
-            value={formulario.stock_minimo}
             onChange={manejarCambio}
           />
 
