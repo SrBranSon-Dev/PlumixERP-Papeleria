@@ -8,6 +8,7 @@ import Dashboard from "./pages/dashboard/dashboard";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import Proveedores from "./pages/Proveedores";
 import Productos from "./pages/Productos";
+import Clientes from "./pages/clientes/Clientes";
 
 // Rutas
 import RegistroEmpleados from "./pages/registro_empleados/registro_empleados";
@@ -66,12 +67,20 @@ function App() {
           }
         />
 
-
         <Route
           path="/productos"
           element={
             <ProtectedRoute>
-                <Productos />
+              <Productos />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/clientes"
+          element={
+            <ProtectedRoute>
+              <Clientes />
             </ProtectedRoute>
           }
         />

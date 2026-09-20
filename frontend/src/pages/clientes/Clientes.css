@@ -1,0 +1,142 @@
+.clientes-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 30px;
+}
+
+.clientes-header {
+  margin-bottom: 25px;
+}
+
+.clientes-header h1 {
+  margin-bottom: 8px;
+}
+
+.clientes-header p {
+  color: #666;
+}
+
+.clientes-form {
+  background: white;
+  padding: 25px;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  margin-bottom: 25px;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15px;
+}
+
+.form-grid input {
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 15px;
+}
+
+.form-actions {
+  margin-top: 20px;
+  display: flex;
+  gap: 10px;
+}
+
+.btn-guardar,
+.btn-limpiar,
+.btn-editar,
+.btn-eliminar {
+  padding: 9px 15px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.btn-guardar {
+  background: #198754;
+  color: white;
+  border: none;
+}
+
+.btn-limpiar {
+  background: #6c757d;
+  color: white;
+  border: none;
+}
+
+.btn-editar {
+  background: white;
+  color: #0d6efd;
+  border: 1px solid #0d6efd;
+  margin-right: 10px;
+}
+
+.btn-eliminar {
+  background: white;
+  color: #dc3545;
+  border: 1px solid #dc3545;
+}
+
+.busqueda {
+  margin-bottom: 20px;
+}
+
+.busqueda input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 15px;
+}
+
+.tabla-card {
+  background: white;
+  padding: 25px;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  overflow-x: auto;
+}
+
+.tabla-card h2 {
+  margin-bottom: 5px;
+}
+
+.contador {
+  color: #666;
+  margin-bottom: 20px;
+}
+
+.tabla-clientes {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.tabla-clientes th,
+.tabla-clientes td {
+  padding: 12px;
+  border-bottom: 1px solid #ddd;
+  text-align: left;
+}
+
+.tabla-clientes th {
+  background: #f5f5f5;
+}
+
+.tabla-clientes th:first-child,
+.tabla-clientes td:first-child,
+.tabla-clientes th:last-child,
+.tabla-clientes td:last-child {
+  white-space: nowrap;
+}
+
+@media (max-width: 768px) {
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .clientes-container {
+    padding: 15px;
+  }
+}

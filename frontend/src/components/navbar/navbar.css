@@ -53,6 +53,34 @@
 }
 
 /* ===========================
+   MENÚ PRINCIPAL
+=========================== */
+
+.navbar-menu {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.navbar-menu-item {
+  background: transparent;
+  border: none;
+  color: white;
+  padding: 9px 14px;
+  border-radius: 6px;
+  font-family: "Helvetica Neue", sans-serif;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.navbar-menu-item:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+/* ===========================
    PERFIL DERECHA
 =========================== */
 
@@ -242,5 +270,39 @@
     opacity: 1;
 
     transform: translateY(0);
+  }
+}
+
+/* ===========================
+   RESPONSIVE
+=========================== */
+
+@media (max-width: 900px) {
+  .navbar-topbar {
+    padding: 0 20px;
+  }
+
+  .navbar-menu {
+    gap: 2px;
+  }
+
+  .navbar-menu-item {
+    padding: 8px 9px;
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 700px) {
+  .navbar-brand-text {
+    display: none;
+  }
+
+  .navbar-menu-item {
+    padding: 8px 7px;
+    font-size: 12px;
+  }
+
+  .navbar-user-text {
+    display: none;
   }
 }

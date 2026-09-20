@@ -26,33 +26,43 @@ function Dashboard() {
 
           {/* 🔒 Rutas exclusivas del administrador */}
           {userRol === "Administrador (Dueño)" && (
-            <>
-              <button
-                className="sidebar-link"
-                onClick={() => navigate("/admin/registro")}
-              >
-                <span className="sidebar-icon">👥</span> Gestión de Personal
-              </button>
-              <button
-                className="sidebar-link"
-                onClick={() => navigate("/proveedores")}
-              >
-                <span className="sidebar-icon">🚚</span> Proveedores
-              </button>
-              <button
-                className="sidebar-link"
-                onClick={() => navigate("/productos")}
-              >
-                <span className="sidebar-icon">📦</span> Productos
-              </button>
-              <button
-                className="sidebar-link"
-                onClick={() => navigate("/admin/auditoria")}
-              >
-                <span className="sidebar-icon">📝</span> Auditoría de Logs
-              </button>
-            </>
-          )}
+  <>
+    <button
+      className="sidebar-link"
+      onClick={() => navigate("/admin/registro")}
+    >
+      <span className="sidebar-icon">👥</span> Gestión de Personal
+    </button>
+
+    <button
+      className="sidebar-link"
+      onClick={() => navigate("/proveedores")}
+    >
+      <span className="sidebar-icon">🚚</span> Proveedores
+    </button>
+
+    <button
+      className="sidebar-link"
+      onClick={() => navigate("/productos")}
+    >
+      <span className="sidebar-icon">📦</span> Productos
+    </button>
+
+    <button
+      className="sidebar-link"
+      onClick={() => navigate("/clientes")}
+    >
+      <span className="sidebar-icon">👤</span> Clientes
+    </button>
+
+    <button
+      className="sidebar-link"
+      onClick={() => navigate("/admin/auditoria")}
+    >
+      <span className="sidebar-icon">📝</span> Auditoría de Logs
+    </button>
+  </>
+)}
         </nav>
       </aside>
 
