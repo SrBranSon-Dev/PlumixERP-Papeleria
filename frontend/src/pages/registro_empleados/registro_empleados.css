@@ -9,7 +9,6 @@
 
 .registro-empleados-container h2 {
   font-size: 28px;
-  color: #c92424; /* Rojo corporativo PlumixERP */
   margin-bottom: 25px;
   border-bottom: 2px solid #f0f0f0;
   padding-bottom: 10px;
@@ -101,7 +100,7 @@
 }
 
 .btn-registrar {
-  background-color: #c92424;
+  background-color: #0f766e;
   color: white;
   border: none;
   padding: 12px 24px;
@@ -113,7 +112,7 @@
 }
 
 .btn-registrar:hover {
-  background-color: #a81c1c;
+  background-color: #115e59;
 }
 
 .btn-cancelar {

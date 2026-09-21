@@ -243,7 +243,7 @@ function RegistroEmpleados() {
 
           <div className="form-actions">
             <button type="submit" className="btn-registrar">
-              {editandoId ? "Guardar Cambios" : "Dar de Alta en el Sistema"}
+              {editandoId ? "Guardar Cambios" : "Dar de Alta"}
             </button>
             {editandoId && (
               <button
