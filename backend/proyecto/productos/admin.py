@@ -5,8 +5,15 @@ from .models import Categoria, Producto, Inventario
 
 @admin.register(Categoria)
 class CategoriaAdmin(admin.ModelAdmin):
-    list_display = ("id", "nombre", "descripcion")
-    search_fields = ("nombre",)
+    list_display = (
+        "id",
+        "nombre",
+        "descripcion",
+    )
+
+    search_fields = (
+        "nombre",
+    )
 
 
 @admin.register(Producto)
@@ -32,6 +39,10 @@ class ProductoAdmin(admin.ModelAdmin):
         "activo",
     )
 
+    exclude = (
+        "codigo",
+    )
+
 
 @admin.register(Inventario)
 class InventarioAdmin(admin.ModelAdmin):
@@ -41,4 +52,3 @@ class InventarioAdmin(admin.ModelAdmin):
         "ubicacion",
         "fecha_actualizacion",
     )
-    

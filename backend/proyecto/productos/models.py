@@ -85,6 +85,10 @@ class Producto(models.Model):
 
         super().save(*args, **kwargs)
 
+        Inventario.objects.get_or_create(
+            producto=self
+        )
+
     class Meta:
         db_table = "producto"
         ordering = ["nombre"]
