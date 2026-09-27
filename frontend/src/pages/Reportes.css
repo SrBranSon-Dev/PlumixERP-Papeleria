@@ -85,8 +85,8 @@
 }
 
 .tabla-ventas thead {
-  background-color: #c62828;
-  color: white;
+  background-color: var(--color-primary);
+  color: var(--color-white);
 }
 
 .tabla-ventas th {

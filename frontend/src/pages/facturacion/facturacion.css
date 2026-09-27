@@ -291,13 +291,12 @@
 }
 
 .facturas-table th {
-	padding: 12px;
-	background: #202124;
+	padding: 14px 12px;
+	background: var(--color-primary);
 	color: #fff;
-	font-size: 12px;
-	letter-spacing: .05em;
+	font-size: 14px;
 	text-align: left;
-	text-transform: uppercase;
+	font-weight: 600;
 }
 
 .facturas-table th:first-child { border-radius: 6px 0 0 6px; }

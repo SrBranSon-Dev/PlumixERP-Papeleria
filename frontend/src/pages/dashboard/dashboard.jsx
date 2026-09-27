@@ -1,6 +1,28 @@
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/auth-context";
 import { useState } from "react";
+import {
+  FaBoxOpen,
+  FaBuilding,
+  FaCalculator,
+  FaChartBar,
+  FaChartLine,
+  FaClipboardList,
+  FaCompass,
+  FaExclamationTriangle,
+  FaFileInvoiceDollar,
+  FaHandshake,
+  FaHistory,
+  FaHome,
+  FaMoneyBillWave,
+  FaShoppingCart,
+  FaTags,
+  FaTruck,
+  FaUser,
+  FaUserFriends,
+  FaUsers,
+  FaWarehouse,
+} from "react-icons/fa";
 import "./dashboard.css";
 
 function Dashboard() {
@@ -25,7 +47,7 @@ function Dashboard() {
             }`}
             onClick={() => setSeccionActual("inicio")}
           >
-            <span className="sidebar-icon">🏠</span>
+            <span className="sidebar-icon"><FaHome /></span>
             Inicio
           </button>
 
@@ -36,7 +58,7 @@ function Dashboard() {
                 className="sidebar-link"
                 onClick={() => navigate("/admin/registro")}
               >
-                <span className="sidebar-icon">👥</span>
+                <span className="sidebar-icon"><FaUsers /></span>
                 Gestión de Personal
               </button>
 
@@ -44,7 +66,7 @@ function Dashboard() {
                 className="sidebar-link"
                 onClick={() => navigate("/proveedores")}
               >
-                <span className="sidebar-icon">🚚</span>
+                <span className="sidebar-icon"><FaTruck /></span>
                 Proveedores
               </button>
 
@@ -52,7 +74,7 @@ function Dashboard() {
                 className="sidebar-link"
                 onClick={() => navigate("/productos")}
               >
-                <span className="sidebar-icon">📦</span>
+                <span className="sidebar-icon"><FaBoxOpen /></span>
                 Productos
               </button>
 
@@ -60,7 +82,7 @@ function Dashboard() {
                 className="sidebar-link"
                 onClick={() => navigate("/clientes")}
               >
-                <span className="sidebar-icon">👤</span>
+                <span className="sidebar-icon"><FaUser /></span>
                 Clientes
               </button>
 
@@ -68,35 +90,35 @@ function Dashboard() {
                 className="sidebar-link"
                 onClick={() => navigate("/ventas")}
               >
-                <span className="sidebar-icon">💰</span> Ventas
+                <span className="sidebar-icon"><FaMoneyBillWave /></span> Ventas
               </button>
 
               <button
                 className="sidebar-link"
                 onClick={() => navigate("/compras")}
               >
-                <span className="sidebar-icon">🧾</span> Compras
+                <span className="sidebar-icon"><FaShoppingCart /></span> Compras
               </button>
 
               <button
                 className="sidebar-link"
                 onClick={() => navigate("/facturacion")}
               >
-                <span className="sidebar-icon">📄</span> Facturación
+                <span className="sidebar-icon"><FaFileInvoiceDollar /></span> Facturación
               </button>
 
               <button
                 className="sidebar-link"
                 onClick={() => navigate("/reportes")}
               >
-              <span className="sidebar-icon">📊</span> Reportes
+              <span className="sidebar-icon"><FaChartBar /></span> Reportes
               </button>
 
               <button
                 className="sidebar-link"
                 onClick={() => navigate("/admin/auditoria")}
               >
-                <span className="sidebar-icon">📝</span>
+                <span className="sidebar-icon"><FaClipboardList /></span>
                 Auditoría de Logs
               </button>
             </>
@@ -127,7 +149,7 @@ function Dashboard() {
               <section className="dashboard-cards">
 
                 <div className="dashboard-card">
-                  <div className="dashboard-card-icon">💰</div>
+                  <div className="dashboard-card-icon"><FaChartLine /></div>
                   <div>
                     <h3>Ventas del día</h3>
                     <strong>$0</strong>
@@ -135,7 +157,7 @@ function Dashboard() {
                 </div>
 
                 <div className="dashboard-card">
-                  <div className="dashboard-card-icon">📦</div>
+                  <div className="dashboard-card-icon"><FaTags /></div>
                   <div>
                     <h3>Productos</h3>
                     <strong>0</strong>
@@ -143,7 +165,7 @@ function Dashboard() {
                 </div>
 
                 <div className="dashboard-card">
-                  <div className="dashboard-card-icon">👥</div>
+                  <div className="dashboard-card-icon"><FaUserFriends /></div>
                   <div>
                     <h3>Clientes</h3>
                     <strong>0</strong>
@@ -151,7 +173,7 @@ function Dashboard() {
                 </div>
 
                 <div className="dashboard-card">
-                  <div className="dashboard-card-icon">🚚</div>
+                  <div className="dashboard-card-icon"><FaBuilding /></div>
                   <div>
                     <h3>Proveedores</h3>
                     <strong>0</strong>
@@ -171,7 +193,7 @@ function Dashboard() {
                     onClick={() => navigate("/ventas")}
                     className="quick-action"
                   >
-                    <span>💰</span>
+                    <span><FaCalculator /></span>
                     <div>
                       <strong>Registrar venta</strong>
                       <small>Crear una nueva venta</small>
@@ -182,7 +204,7 @@ function Dashboard() {
                     onClick={() => navigate("/clientes")}
                     className="quick-action"
                   >
-                    <span>👤</span>
+                    <span><FaHandshake /></span>
                     <div>
                       <strong>Registrar cliente</strong>
                       <small>Gestionar clientes</small>
@@ -193,7 +215,7 @@ function Dashboard() {
                     onClick={() => navigate("/productos")}
                     className="quick-action"
                   >
-                    <span>📦</span>
+                    <span><FaCompass /></span>
                     <div>
                       <strong>Gestionar productos</strong>
                       <small>Consultar inventario</small>
@@ -204,7 +226,7 @@ function Dashboard() {
                     onClick={() => navigate("/proveedores")}
                     className="quick-action"
                   >
-                    <span>🚚</span>
+                    <span><FaWarehouse /></span>
                     <div>
                       <strong>Gestionar proveedores</strong>
                       <small>Consultar proveedores</small>
@@ -230,7 +252,7 @@ function Dashboard() {
                   </div>
 
                   <div className="empty-dashboard">
-                    <span>📊</span>
+                    <span><FaHistory /></span>
                     <p>
                       Aquí aparecerán las ventas recientes.
                     </p>
@@ -246,7 +268,7 @@ function Dashboard() {
                   </div>
 
                   <div className="empty-dashboard">
-                    <span>⚠️</span>
+                    <span><FaExclamationTriangle /></span>
                     <p>
                       No hay alertas pendientes.
                     </p>

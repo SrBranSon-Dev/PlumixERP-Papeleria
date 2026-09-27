@@ -169,12 +169,13 @@
 }
 
 .tabla-empleados th {
-  background-color: #f8f9fa;
-  color: #555;
+  background-color: var(--color-primary);
+  color: var(--color-white);
   font-weight: 600;
   text-align: left;
   padding: 14px 18px;
-  border-bottom: 2px solid #eee;
+  font-size: 14px;
+  border-bottom: 2px solid var(--color-primary-hover);
 }
 
 .tabla-empleados td {

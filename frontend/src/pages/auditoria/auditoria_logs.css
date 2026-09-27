@@ -18,8 +18,10 @@
   text-align: left;
 }
 .auditoria-tabla th {
-  background-color: #202124;
+  background-color: var(--color-primary);
   color: #fff;
+  font-size: 14px;
+  font-weight: 600;
 }
 .badge {
   padding: 4px 8px;

@@ -1,6 +1,8 @@
 .ventas-container {
+  width: min(var(--content-width), 100%);
+  margin: 0 auto;
   padding: 30px;
-  background-color: #f5f6fa;
+  background-color: var(--color-background);
   min-height: 70vh;
 }
 
@@ -22,8 +24,10 @@
 
 /* Formulario */
 .ventas-form {
+  width: min(980px, 100%);
+  margin-inline: auto;
   background: white;
-  padding: 25px;
+  padding: 24px;
   border-radius: 12px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
   margin-bottom: 25px;
@@ -103,6 +107,16 @@
   overflow-x: auto;
 }
 
+.ventas-container .venta-productos-card {
+  width: min(980px, 100%);
+  margin-inline: auto;
+}
+
+.ventas-container .ventas-registradas {
+  width: min(980px, 100%);
+  margin-inline: auto;
+}
+
 .ventas-container .tabla-card h2 {
   margin-top: 0;
   color: #101010;
@@ -115,10 +129,12 @@
 }
 
 .ventas-container .tabla-ventas th {
-  background-color: #c62828;
-  color: white;
-  padding: 13px;
+  background-color: var(--color-primary);
+  color: var(--color-white);
+  padding: 14px 12px;
   text-align: left;
+  font-size: 14px;
+  font-weight: 600;
 }
 
 .ventas-container .tabla-ventas td {
@@ -195,12 +211,17 @@
     padding: 15px;
   }
 
-  .form-actions {
+  .ventas-form,
+  .ventas-container .venta-productos-card {
+    width: 100%;
+  }
+
+  .ventas-container .form-actions {
     flex-direction: column;
   }
 
-  .btn-guardar,
-  .btn-limpiar {
+  .ventas-container .btn-guardar,
+  .ventas-container .btn-limpiar {
     width: 100%;
   }
 }

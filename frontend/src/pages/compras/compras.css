@@ -370,13 +370,12 @@
 }
 
 .compras-table th {
-	padding: 12px;
-	background: #202124;
+	padding: 14px 12px;
+	background: var(--color-primary);
 	color: #fff;
-	font-size: 12px;
+	font-size: 14px;
 	text-align: left;
-	text-transform: uppercase;
-	letter-spacing: 0.05em;
+	font-weight: 600;
 }
 
 .compras-table th:first-child {

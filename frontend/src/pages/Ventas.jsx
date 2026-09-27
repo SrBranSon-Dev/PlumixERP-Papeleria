@@ -474,7 +474,7 @@ function Ventas() {
           PRODUCTOS DE LA VENTA
       ====================================================== */}
 
-      <div className="tabla-card">
+      <div className="tabla-card venta-productos-card">
 
         <h2>Productos de la venta</h2>
 
