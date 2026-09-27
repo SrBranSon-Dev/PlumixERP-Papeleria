@@ -73,6 +73,13 @@ function Dashboard() {
 
               <button
                 className="sidebar-link"
+                onClick={() => navigate("/reportes")}
+              >
+              <span className="sidebar-icon">📊</span> Reportes
+              </button>
+
+              <button
+                className="sidebar-link"
                 onClick={() => navigate("/admin/auditoria")}
               >
                 <span className="sidebar-icon">📝</span>
