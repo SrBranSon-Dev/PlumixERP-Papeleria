@@ -1,4 +1,4 @@
-from decimal import Decimal
+from decimal import Decimal, ROUND_HALF_UP
 
 from django.conf import settings
 from django.core.exceptions import ValidationError
@@ -233,8 +233,15 @@ class DetalleFacturaElectronica(models.Model):
 			raise ValidationError(
 				"El descuento no puede superar el subtotal del detalle."
 			)
-		self.impuesto = base * self.porcentaje_iva / Decimal("100")
-		self.total = base + self.impuesto
+		self.impuesto = (
+			base * self.porcentaje_iva / Decimal("100")
+		).quantize(Decimal("0.01"), rounding=ROUND_HALF_UP)
+		self.subtotal = self.subtotal.quantize(
+			Decimal("0.01"), rounding=ROUND_HALF_UP
+		)
+		self.total = (base + self.impuesto).quantize(
+			Decimal("0.01"), rounding=ROUND_HALF_UP
+		)
 		self.full_clean()
 		super().save(*args, **kwargs)
 		self.factura.actualizar_totales()
