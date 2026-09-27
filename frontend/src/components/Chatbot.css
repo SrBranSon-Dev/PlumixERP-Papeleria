@@ -6,7 +6,7 @@
   height: 60px;
   border-radius: 50%;
   border: none;
-  background: #c62828;
+  background: var(--color-primary);
   color: white;
   font-size: 28px;
   cursor: pointer;
@@ -17,7 +17,7 @@
 
 .chatbot-burbuja:hover {
   transform: scale(1.08);
-  background: #a61c1c;
+  background: var(--color-primary-hover);
 }
 
 .chatbot-contenedor {
@@ -26,7 +26,7 @@
   right: 25px;
   width: 340px;
   height: 430px;
-  background: white;
+  background: var(--color-surface);
   border-radius: 16px;
   box-shadow: 0 8px 25px rgba(0,0,0,.25);
   display: flex;
@@ -36,7 +36,7 @@
 }
 
 .chatbot-header {
-  background: #c62828;
+  background: var(--color-primary);
   color: white;
   padding: 15px;
   display: flex;
@@ -80,7 +80,7 @@
 }
 
 .usuario {
-  background: #c62828;
+  background: var(--color-primary);
   color: white;
   margin-left: auto;
 }
@@ -107,7 +107,7 @@
 }
 
 .chatbot-input button:hover {
-  background: #a61c1c;
+  background: var(--color-primary-hover);
 }
 
 @media (max-width: 480px) {
@@ -115,6 +115,7 @@
     width: calc(100% - 30px);
     right: 15px;
     bottom: 85px;
+    height: min(430px, calc(100vh - 120px));
   }
 
   .chatbot-burbuja {

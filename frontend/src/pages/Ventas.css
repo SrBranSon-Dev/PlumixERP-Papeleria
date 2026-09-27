@@ -36,14 +36,14 @@
 }
 
 /* Campos del formulario */
-.form-grid {
+.ventas-container .form-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 15px;
 }
 
-.form-grid input,
-.form-grid select {
+.ventas-container .form-grid input,
+.ventas-container .form-grid select {
   width: 100%;
   padding: 12px;
   border: 1px solid #ccc;
@@ -53,21 +53,21 @@
   background-color: white;
 }
 
-.form-grid input:focus,
-.form-grid select:focus {
+.ventas-container .form-grid input:focus,
+.ventas-container .form-grid select:focus {
   outline: none;
   border-color: #c62828;
 }
 
 /* Botones del formulario */
-.form-actions {
+.ventas-container .form-actions {
   display: flex;
   gap: 12px;
   margin-top: 20px;
   justify-content: flex-end;
 }
 
-.btn-guardar {
+.ventas-container .btn-guardar {
   background-color: #c62828;
   color: white;
   border: none;
@@ -77,25 +77,25 @@
   font-weight: bold;
 }
 
-.btn-guardar:hover {
+.ventas-container .btn-guardar:hover {
   background-color: #a51f1f;
 }
 
-.btn-limpiar {
-  background-color: #cecece;
-  color: #101010;
+.ventas-container .btn-limpiar {
+  background-color: #eaecf0;
+  color: var(--color-ink-soft);
   border: none;
   padding: 12px 22px;
   border-radius: 7px;
   cursor: pointer;
 }
 
-.btn-limpiar:hover {
-  background-color: #bdbdbd;
+.ventas-container .btn-limpiar:hover {
+  background-color: #dfe2e7;
 }
 
 /* Tabla */
-.tabla-card {
+.ventas-container .tabla-card {
   background: white;
   padding: 25px;
   border-radius: 12px;
@@ -103,37 +103,38 @@
   overflow-x: auto;
 }
 
-.tabla-card h2 {
+.ventas-container .tabla-card h2 {
   margin-top: 0;
   color: #101010;
 }
 
-.tabla-ventas {
+.ventas-container .tabla-ventas {
   width: 100%;
   border-collapse: collapse;
   margin-top: 15px;
 }
 
-.tabla-ventas th {
+.ventas-container .tabla-ventas th {
   background-color: #c62828;
   color: white;
   padding: 13px;
   text-align: left;
 }
 
-.tabla-ventas td {
+.ventas-container .tabla-ventas td {
   padding: 12px;
   border-bottom: 1px solid #ddd;
 }
 
-.tabla-ventas tr:hover {
+.ventas-container .tabla-ventas tr:hover {
   background-color: #f8f8f8;
 }
 
 /* Botones de acciones */
-.btn-editar {
-  background-color: #555;
-  color: white;
+.ventas-container .btn-editar {
+  background-color: var(--color-surface);
+  color: var(--color-info);
+  border: 1px solid var(--color-info);
   border: none;
   padding: 7px 12px;
   border-radius: 5px;
@@ -141,51 +142,52 @@
   margin-right: 5px;
 }
 
-.btn-eliminar {
-  background-color: #c62828;
-  color: white;
+.ventas-container .btn-eliminar {
+  background-color: var(--color-surface);
+  color: var(--color-danger);
+  border: 1px solid #fca5a5;
   border: none;
   padding: 7px 12px;
   border-radius: 5px;
   cursor: pointer;
 }
 
-.btn-editar:hover,
-.btn-eliminar:hover {
+.ventas-container .btn-editar:hover,
+.ventas-container .btn-eliminar:hover {
   opacity: 0.85;
 }
 
 /* Totales */
-.totales-venta {
+.ventas-container .totales-venta {
   margin-top: 25px;
   margin-bottom: 20px;
   text-align: right;
   font-size: 17px;
 }
 
-.totales-venta p {
+.ventas-container .totales-venta p {
   margin: 8px 0;
 }
 
-.totales-venta strong {
+.ventas-container .totales-venta strong {
   margin-left: 15px;
 }
 
-.total-venta {
+.ventas-container .total-venta {
   font-size: 20px;
   color: #c62828;
   font-weight: bold;
 }
 
 /* Botones deshabilitados */
-button:disabled {
+.ventas-container button:disabled {
   opacity: 0.5;
   cursor: not-allowed;
 }
 
 /* Responsive */
 @media (max-width: 768px) {
-  .form-grid {
+  .ventas-container .form-grid {
     grid-template-columns: 1fr;
   }
 

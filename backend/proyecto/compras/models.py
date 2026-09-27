@@ -1,4 +1,7 @@
-from django.db import models
+from decimal import Decimal
+
+from django.core.exceptions import ValidationError
+from django.db import models, transaction
 from proveedores.models import Proveedor
 from productos.models import Producto, Inventario
 
@@ -24,6 +27,12 @@ class Compra(models.Model):
     estado = models.BooleanField(
         default=True
     )
+
+    def actualizar_total(self):
+        self.total = self.detalles.aggregate(
+            total=models.Sum("subtotal")
+        )["total"] or Decimal("0.00")
+        self.save(update_fields=["total"])
 
     def __str__(self):
         return f"Compra #{self.id}"
@@ -55,78 +64,85 @@ class DetalleCompra(models.Model):
         decimal_places=2
     )
 
+    def clean(self):
+        if self.cantidad <= 0:
+            raise ValidationError({"cantidad": "La cantidad debe ser mayor que cero."})
+
+        if self.precio_unitario < 0:
+            raise ValidationError(
+                {"precio_unitario": "El precio unitario no puede ser negativo."}
+            )
+
+        subtotal_esperado = self.cantidad * self.precio_unitario
+        if self.subtotal != subtotal_esperado:
+            raise ValidationError(
+                {"subtotal": "El subtotal debe ser cantidad por precio unitario."}
+            )
+
     def save(self, *args, **kwargs):
+        self.subtotal = self.cantidad * self.precio_unitario
 
-        if self.pk:
+        with transaction.atomic():
+            if self.pk:
+                detalle_anterior = DetalleCompra.objects.select_for_update().get(
+                    pk=self.pk
+                )
 
-            detalle_anterior = DetalleCompra.objects.get(
-                pk=self.pk
-            )
-
-            # Si cambió el producto
-            if detalle_anterior.producto_id != self.producto_id:
-
-                inventario_anterior, created = (
-                    Inventario.objects.get_or_create(
-                        producto=detalle_anterior.producto
+                if detalle_anterior.producto_id != self.producto_id:
+                    inventario_anterior = Inventario.objects.select_for_update().get(
+                        producto_id=detalle_anterior.producto_id
                     )
-                )
+                    if inventario_anterior.cantidad < detalle_anterior.cantidad:
+                        raise ValidationError(
+                            "No hay inventario suficiente para revertir el detalle anterior."
+                        )
+                    inventario_anterior.cantidad -= detalle_anterior.cantidad
+                    inventario_anterior.save(update_fields=["cantidad"])
 
-                inventario_anterior.cantidad -= (
-                    detalle_anterior.cantidad
-                )
-
-                inventario_anterior.save()
-
-                inventario_nuevo, created = (
-                    Inventario.objects.get_or_create(
-                        producto=self.producto
+                    inventario_nuevo, _ = Inventario.objects.select_for_update().get_or_create(
+                        producto_id=self.producto_id
                     )
-                )
-
-                inventario_nuevo.cantidad += self.cantidad
-                inventario_nuevo.save()
-
+                    inventario_nuevo.cantidad += self.cantidad
+                    inventario_nuevo.save(update_fields=["cantidad"])
+                else:
+                    inventario, _ = Inventario.objects.select_for_update().get_or_create(
+                        producto_id=self.producto_id
+                    )
+                    diferencia = self.cantidad - detalle_anterior.cantidad
+                    if diferencia < 0 and inventario.cantidad < abs(diferencia):
+                        raise ValidationError(
+                            "No hay inventario suficiente para reducir este detalle."
+                        )
+                    inventario.cantidad += diferencia
+                    inventario.save(update_fields=["cantidad"])
             else:
-
-                diferencia = (
-                    self.cantidad -
-                    detalle_anterior.cantidad
+                inventario, _ = Inventario.objects.select_for_update().get_or_create(
+                    producto_id=self.producto_id
                 )
+                inventario.cantidad += self.cantidad
+                inventario.save(update_fields=["cantidad"])
 
-                inventario, created = (
-                    Inventario.objects.get_or_create(
-                        producto=self.producto
-                    )
-                )
-
-                inventario.cantidad += diferencia
-                inventario.save()
-
-            self.subtotal = (
-                self.cantidad *
-                self.precio_unitario
-            )
-
+            self.full_clean()
             super().save(*args, **kwargs)
+            self.compra.actualizar_total()
 
-        else:
-
-            self.subtotal = (
-                self.cantidad *
-                self.precio_unitario
+    def delete(self, *args, **kwargs):
+        with transaction.atomic():
+            inventario = Inventario.objects.select_for_update().get(
+                producto_id=self.producto_id
             )
-
-            super().save(*args, **kwargs)
-
-            inventario, created = (
-                Inventario.objects.get_or_create(
-                    producto=self.producto
+            if inventario.cantidad < self.cantidad:
+                raise ValidationError(
+                    "No se puede eliminar la compra porque el inventario ya fue utilizado."
                 )
-            )
 
-            inventario.cantidad += self.cantidad
-            inventario.save()
+            inventario.cantidad -= self.cantidad
+            inventario.save(update_fields=["cantidad"])
+            compra = self.compra
+            resultado = super().delete(*args, **kwargs)
+            compra.actualizar_total()
+
+        return resultado
 
     def __str__(self):
         return f"Detalle de Compra #{self.id}"

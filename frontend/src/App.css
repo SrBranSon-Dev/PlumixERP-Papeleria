@@ -1,23 +1,12 @@
 body {
   margin: 0;
-  background-image: url("./images/Fondo.jpeg");
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
+  background: var(--color-background);
 }
 
 html,
 body,
 #root {
   min-height: 100vh;
-}
-
-html,
-body,
-#root {
-  height: 100%;
-  margin: 0;
 }
 
 .app {
@@ -28,4 +17,5 @@ body,
 
 main {
   flex: 1;
+  min-width: 0;
 }

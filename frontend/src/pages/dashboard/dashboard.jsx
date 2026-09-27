@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../../context/AuthContext";
+import { useAuth } from "../../context/auth-context";
 import { useState } from "react";
 import "./dashboard.css";
 
@@ -69,6 +69,20 @@ function Dashboard() {
                 onClick={() => navigate("/ventas")}
               >
                 <span className="sidebar-icon">💰</span> Ventas
+              </button>
+
+              <button
+                className="sidebar-link"
+                onClick={() => navigate("/compras")}
+              >
+                <span className="sidebar-icon">🧾</span> Compras
+              </button>
+
+              <button
+                className="sidebar-link"
+                onClick={() => navigate("/facturacion")}
+              >
+                <span className="sidebar-icon">📄</span> Facturación
               </button>
 
               <button

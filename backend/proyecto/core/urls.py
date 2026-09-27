@@ -17,6 +17,10 @@ urlpatterns = [
     
     path("api/ventas/", include("ventas.urls")),
 
+    path("api/compras/", include("compras.urls")),
+
+    path("api/facturacion/", include("facturacion.urls")),
+
     path("api/reportes/", include("reportes.urls")),
 
     path("api/login/", TokenObtainPairView.as_view(), name="token_obtain_pair"),

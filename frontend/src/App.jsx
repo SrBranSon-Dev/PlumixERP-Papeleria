@@ -15,6 +15,8 @@ import Proveedores from "./pages/Proveedores";
 import Productos from "./pages/Productos";
 import Clientes from "./pages/clientes/Clientes";
 import Ventas from "./pages/Ventas";
+import Compras from "./pages/compras/compras";
+import Facturacion from "./pages/facturacion/facturacion";
 import Reportes from "./pages/Reportes";
 
 // Rutas
@@ -105,6 +107,26 @@ function App() {
           element={
             <ProtectedRoute>
               <Ventas />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Compras */}
+        <Route
+          path="/compras"
+          element={
+            <ProtectedRoute>
+              <Compras />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Facturación */}
+        <Route
+          path="/facturacion"
+          element={
+            <ProtectedRoute>
+              <Facturacion />
             </ProtectedRoute>
           }
         />

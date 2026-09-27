@@ -12,13 +12,13 @@
 
   background: #ffffff;
 
-  padding: 60px;
+  padding: clamp(28px, 6vw, 60px);
 
-  border-radius: 40px;
+  border-radius: 20px;
 
   border: 1px solid #e5e5e5;
 
-  box-shadow: 0 10px 30px rgba(255, 0, 0, 0.08);
+  box-shadow: var(--shadow-card);
 }
 
 .loginCard h2 {
@@ -31,7 +31,7 @@
 h2.loginSubtitle {
   text-align: center;
   color: #c62828;
-  margin-bottom: 80px;
+  margin-bottom: 48px;
   font-family: "Helvetica Neue", sans-serif;
   font-size: 25px;
 }
@@ -98,7 +98,7 @@ h2.loginSubtitle {
   border: none;
   border-radius: 6px;
 
-  background: #c62828;
+  background: var(--color-primary);
   color: white;
 
   font-family: "Helvetica Neue", sans-serif;
@@ -111,7 +111,7 @@ h2.loginSubtitle {
 }
 
 .loginButton:hover {
-  background: #a61f1f;
+  background: var(--color-primary-hover);
 }
 
 .forgotPassword {
@@ -129,4 +129,14 @@ h2.loginSubtitle {
 
 .forgotPassword:hover {
   text-decoration: underline;
+}
+
+@media (max-width: 600px) {
+  .loginContainer {
+    padding: 28px 15px;
+  }
+
+  .loginCard {
+    padding: 28px 20px;
+  }
 }

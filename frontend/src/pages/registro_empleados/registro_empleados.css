@@ -1,10 +1,10 @@
 /* Container Principal */
 .registro-empleados-container {
-  max-width: 1200px;
+  width: min(var(--content-width), 100%);
   margin: 30px auto;
   padding: 20px;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  color: #333;
+  color: var(--color-ink-soft);
 }
 
 .registro-empleados-container h2 {
@@ -21,7 +21,7 @@
   padding: 25px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
   margin-bottom: 40px;
-  border-left: 4px solid #c92424;
+  border-left: 4px solid var(--color-primary);
 }
 
 .form-section h3 {
@@ -64,7 +64,7 @@
 
 .form-group input:focus {
   outline: none;
-  border-color: #c92424;
+  border-color: var(--color-primary);
   box-shadow: 0 0 0 3px rgba(201, 36, 36, 0.1);
 }
 
@@ -87,12 +87,12 @@
 .checkbox-group input[type="checkbox"] {
   width: 18px;
   height: 18px;
-  accent-color: #c92424;
+  accent-color: var(--color-primary);
   cursor: pointer;
 }
 
 /* Botones y Acciones del Formulario */
-.form-actions {
+.registro-empleados-container .form-actions {
   grid-column: 1 / -1;
   display: flex;
   gap: 15px;
@@ -100,8 +100,8 @@
 }
 
 .btn-registrar {
-  background-color: #0f766e;
-  color: white;
+  background-color: var(--color-primary);
+  color: #fff;
   border: none;
   padding: 12px 24px;
   font-size: 15px;
@@ -112,14 +112,13 @@
 }
 
 .btn-registrar:hover {
-  background-color: #115e59;
+  background-color: var(--color-primary-hover);
 }
 
 .btn-cancelar {
-  background-color: #e0e0e0;
-  color: #444;
+  background-color: #eaecf0;
+  color: var(--color-ink-soft);
   border: none;
-  padding: 12px 24px;
   font-size: 15px;
   font-weight: 600;
   border-radius: 6px;
@@ -128,7 +127,7 @@
 }
 
 .btn-cancelar:hover {
-  background-color: #d5d5d5;
+  background-color: #dfe2e7;
 }
 
 /* Alertas de Mensajes */
@@ -197,8 +196,8 @@
 }
 
 /* Botones de Acción de la Tabla */
-.btn-editar {
-  background-color: #0275d8;
+.registro-empleados-container .btn-editar {
+  background-color: var(--color-info);
   color: white;
   border: none;
   padding: 6px 14px;
@@ -208,8 +207,8 @@
   transition: background-color 0.2s;
 }
 
-.btn-editar:hover {
-  background-color: #025aa5;
+.registro-empleados-container .btn-editar:hover {
+  background-color: var(--color-info);
 }
 
 /* Estilos de botones dinámicos basados en inline style o clases */
@@ -225,7 +224,7 @@
 
 /* 🆕 INTEGRADO: Estilos definidos y sólidos para el botón de baja (Rojo) */
 .tabla-empleados .btn-baja-rojo {
-  background-color: #dc3545 !important;
+  background-color: var(--color-primary) !important;
   color: #ffffff !important;
   opacity: 1 !important; /* Fuerza a romper la opacidad de la fila heredada */
   margin-left: 10px;
@@ -238,7 +237,7 @@
 
 /* 🆕 INTEGRADO: Estilos definidos y sólidos para el botón de activar (Verde) */
 .tabla-empleados .btn-activar-verde {
-  background-color: #28a745 !important;
+  background-color: var(--color-accent) !important;
   color: #ffffff !important;
   opacity: 1 !important; /* Fuerza el color brillante en filas opacas */
   margin-left: 10px;

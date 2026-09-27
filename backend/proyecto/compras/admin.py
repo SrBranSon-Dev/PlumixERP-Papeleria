@@ -1,6 +1,5 @@
 from django.contrib import admin
 from .models import Compra, DetalleCompra
-from productos.models import Inventario
 
 
 class DetalleCompraInline(admin.TabularInline):
@@ -25,7 +24,7 @@ class CompraAdmin(admin.ModelAdmin):
     )
 
     search_fields = (
-        "proveedor__nombre",
+        "proveedor__nombre_empresa",
     )
 
     exclude = (
@@ -40,14 +39,6 @@ class CompraAdmin(admin.ModelAdmin):
 
         for deleted_form in formset.deleted_forms:
             detalle = deleted_form.instance
-
-            inventario, created = Inventario.objects.get_or_create(
-                producto=detalle.producto
-            )
-
-            inventario.cantidad -= detalle.cantidad
-            inventario.save()
-
             detalle.delete()
 
         instances = formset.save(commit=False)
@@ -57,14 +48,7 @@ class CompraAdmin(admin.ModelAdmin):
 
         formset.save_m2m()
 
-        compra = form.instance
-
-        compra.total = sum(
-            detalle.subtotal
-            for detalle in compra.detalles.all()
-        )
-
-        compra.save()
+        form.instance.actualizar_total()
 
 
 @admin.register(DetalleCompra)

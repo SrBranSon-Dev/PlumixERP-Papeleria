@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import api from "../services/api";
 import "./Ventas.css";
 
@@ -23,20 +23,10 @@ function Ventas() {
   const [cargandoVentas, setCargandoVentas] = useState(false);
 
   // =========================================================
-  // CARGAR DATOS AL INICIAR
-  // =========================================================
-
-  useEffect(() => {
-    cargarClientes();
-    cargarProductos();
-    cargarVentas();
-  }, []);
-
-  // =========================================================
   // CARGAR CLIENTES
   // =========================================================
 
-  const cargarClientes = async () => {
+  const cargarClientes = useCallback(async () => {
     try {
       const respuesta = await api.get("clientes/");
       console.log("Clientes recibidos:", respuesta.data);
@@ -45,13 +35,13 @@ function Ventas() {
       console.error("Error cargando clientes:", error);
       alert("No fue posible cargar los clientes.");
     }
-  };
+  }, []);
 
   // =========================================================
   // CARGAR PRODUCTOS
   // =========================================================
 
-  const cargarProductos = async () => {
+  const cargarProductos = useCallback(async () => {
     try {
       const respuesta = await api.get("productos/api/productos/");
       console.log("Productos recibidos:", respuesta.data);
@@ -60,13 +50,13 @@ function Ventas() {
       console.error("Error cargando productos:", error);
       alert("No fue posible cargar los productos.");
     }
-  };
+  }, []);
 
   // =========================================================
   // CARGAR VENTAS REGISTRADAS
   // =========================================================
 
-  const cargarVentas = async () => {
+  const cargarVentas = useCallback(async () => {
     try {
       setCargandoVentas(true);
 
@@ -80,7 +70,21 @@ function Ventas() {
     } finally {
       setCargandoVentas(false);
     }
-  };
+  }, []);
+
+  // =========================================================
+  // CARGAR DATOS AL INICIAR
+  // =========================================================
+
+  useEffect(() => {
+    const temporizador = setTimeout(() => {
+      cargarClientes();
+      cargarProductos();
+      cargarVentas();
+    }, 0);
+
+    return () => clearTimeout(temporizador);
+  }, [cargarClientes, cargarProductos, cargarVentas]);
 
   // =========================================================
   // AGREGAR PRODUCTO

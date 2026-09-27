@@ -1,22 +1,23 @@
 /* estructura base del layout en pantalla completa */
 .dashboard-layout {
   display: flex;
-  height: 100vh;
-  width: 100vw;
+  min-height: calc(100vh - 65px);
+  width: 100%;
   overflow: hidden;
-  background-color: #f4f6f9;
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background-color: var(--color-background);
+  font-family: var(--font-primary);
 }
 
 /* 🧭 barra lateral izquierda */
 .dashboard-sidebar {
   width: 260px;
-  background-color: #1a1a2e; /* gris azulado oscuro muy elegante */
+  flex: 0 0 260px;
+  background-color: #202124;
   color: #ffffff;
   display: flex;
   flex-direction: column;
   box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
-  padding-top: 20px; /* margen superior para que los botones empiecen desde arriba */
+  padding-top: 14px;
 }
 
 /* CORREGIDO: Se eliminaron por completo las clases .sidebar-brand y .sidebar-brand h2 para quitar el texto rojo repetido */
@@ -50,7 +51,7 @@
 }
 
 .sidebar-link.active {
-  background-color: #c92424;
+  background-color: var(--color-primary);
   color: #ffffff;
   font-weight: 600;
 }
@@ -63,27 +64,28 @@
 /* 💻 bloque contenedor derecho */
 .dashboard-main-content {
   flex: 1;
+  min-width: 0;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
+  overflow: auto;
 }
 
 /* área del cuerpo principal */
 .dashboard-body {
-  padding: 40px;
+  padding: clamp(22px, 4vw, 40px);
   overflow-y: auto;
   flex: 1;
 }
 
 .welcome-view h1 {
   font-size: 26px;
-  color: #1a202c;
+  color: var(--color-black);
   margin-top: 0;
   margin-bottom: 8px;
 }
 
 .welcome-view p {
-  color: #4a5568;
+  color: var(--color-muted);
   font-size: 15px;
   margin-bottom: 30px;
 }
@@ -94,7 +96,37 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  min-height: calc(100vh - 65px);
   font-size: 16px;
-  color: #718096;
+  color: var(--color-muted);
+}
+
+@media (max-width: 700px) {
+  .dashboard-layout {
+    flex-direction: column;
+    overflow: visible;
+  }
+
+  .dashboard-sidebar {
+    width: 100%;
+    flex-basis: auto;
+    padding-top: 0;
+  }
+
+  .sidebar-menu {
+    flex-direction: row;
+    overflow-x: auto;
+    padding: 10px 12px;
+  }
+
+  .sidebar-link {
+    flex: 0 0 auto;
+    width: auto;
+    white-space: nowrap;
+  }
+
+  .dashboard-main-content,
+  .dashboard-body {
+    overflow: visible;
+  }
 }

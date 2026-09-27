@@ -1,39 +1,58 @@
-/* Importar la fuente secundaria */
 @import url("https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600;700&display=swap");
 
-/* Reset */
+/* Base visual compartida por todos los módulos del ERP. */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-/* Variables globales */
 :root {
   --color-primary: #c62828;
+  --color-primary-hover: #a61f1f;
+  --color-primary-soft: #fff1f1;
+  --color-accent: #0f766e;
+  --color-accent-hover: #115e59;
+  --color-success: #166534;
+  --color-success-soft: #dcfce7;
+  --color-danger: #991b1b;
+  --color-danger-soft: #fee2e2;
+  --color-info: #1d4ed8;
+  --color-info-soft: #dbeafe;
   --color-gray: #cecece;
+  --color-border: #e4e7ec;
+  --color-surface: #ffffff;
+  --color-background: #f5f6fa;
+  --color-muted: #667085;
+  --color-ink-soft: #344054;
   --color-black: #101010;
   --color-white: #ffffff;
+  --shadow-card: 0 4px 14px rgba(16, 24, 40, 0.06);
+  --radius-card: 12px;
+  --radius-control: 7px;
+  --content-width: 1200px;
 
   --font-primary: "Helvetica Neue", Helvetica, Arial, sans-serif;
   --font-secondary: "Lora", serif;
 }
 
-/* Estilos generales */
+html {
+  color-scheme: light;
+  background: var(--color-background);
+}
+
 body {
   font-family: var(--font-primary);
-  background-color: var(--color-white);
+  background-color: var(--color-background);
   color: var(--color-black);
   min-height: 100vh;
   line-height: 1.6;
 }
 
-/* Contenedor principal */
 #root {
   min-height: 100vh;
 }
 
-/* Títulos */
 h1,
 h2,
 h3,
@@ -45,61 +64,74 @@ h6 {
   font-weight: 700;
 }
 
-/* Párrafos */
 p {
   font-family: var(--font-primary);
   color: var(--color-black);
 }
 
-/* Enlaces */
 a {
   text-decoration: none;
   color: var(--color-primary);
-  transition: 0.3s;
+  transition: color 0.2s ease;
 }
 
 a:hover {
-  color: #a91f1f;
+  color: var(--color-primary-hover);
 }
 
-/* Botones */
 button {
   font-family: var(--font-primary);
   background-color: var(--color-primary);
   color: white;
   border: none;
-  border-radius: 8px;
-  padding: 12px 22px;
+  border-radius: var(--radius-control);
+  padding: 10px 18px;
   cursor: pointer;
-  transition: 0.3s;
+  transition: background-color 0.2s ease, color 0.2s ease, opacity 0.2s ease;
 }
 
 button:hover {
-  background-color: #a91f1f;
+  background-color: var(--color-primary-hover);
 }
 
-/* Inputs */
 input,
-textarea {
+textarea,
+select {
   font-family: var(--font-primary);
-  border: 1px solid var(--color-gray);
-  border-radius: 8px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-control);
   padding: 10px;
+  background: var(--color-surface);
 }
 
 input:focus,
-textarea:focus {
+textarea:focus,
+select:focus {
   outline: none;
   border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(198, 40, 40, 0.12);
 }
 
-/* Imágenes */
 img {
   max-width: 100%;
   display: block;
 }
 
-/* Listas */
 ul {
   list-style: none;
+}
+
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
 }

@@ -1,3 +1,7 @@
+## PlumixERP Papelería
+
+La documentación técnica completa del proyecto está en [docs/PROJECT.md](docs/PROJECT.md). Ahí se describen la arquitectura, los módulos, las rutas frontend y backend, los flujos de compras, ventas y facturación, las convenciones CSS, la seguridad y los comandos de operación.
+
 ## 🚀 Guía de Trabajo Diario (Flujo Manual y Seguro)
 
 Sigue estos pasos en orden cada vez que vayas a trabajar en el proyecto para mantener el código actualizado y libre de errores.
@@ -31,8 +35,8 @@ Antes de modificar cualquier archivo, asegúrate de tener la última versión de
 
 ### 💻 2. Mientras Programas
 
-* Abre dos pestañas en tu terminal (una para `backend` y otra para `frontend`) para ejecutar tus servidores en paralelo.
-* Realiza pruebas locales en el navegador antes de guardar.
+- Abre dos pestañas en tu terminal (una para `backend` y otra para `frontend`) para ejecutar tus servidores en paralelo.
+- Realiza pruebas locales en el navegador antes de guardar.
 
 ---
 
@@ -64,15 +68,20 @@ Cuando tu código esté listo, sin errores y quieras respaldarlo en GitHub, ejec
 Para probar la aplicación localmente, debes encender tanto el servidor del Backend (Django) como el del Frontend (Vite/React) al mismo tiempo.
 
 ### 🖥️ Terminal 1: Servidor Backend (Django)
+
 Abre una terminal en la carpeta raíz del proyecto, entra a la carpeta del backend y arranca el servidor de Python:
+
 ```bash
 cd backend/proyecto/
 python manage.py runserver
 ```
-*Nota: Si utilizas un entorno virtual (venv), asegúrate de activarlo antes (`source venv/bin/activate` en Mac/Linux o `.\venv\Scripts\activate` en Windows).*
+
+_Nota: Si utilizas un entorno virtual (venv), asegúrate de activarlo antes (`source venv/bin/activate` en Mac/Linux o `.\venv\Scripts\activate` en Windows)._
 
 ### 🎨 Terminal 2: Servidor Frontend (React)
+
 Abre una segunda pestaña o ventana de la terminal en la carpeta raíz del proyecto, entra a la carpeta del frontend y arranca React:
+
 ```bash
 cd frontend
 npm run dev
@@ -87,13 +96,15 @@ Una vez que ambas terminales estén corriendo, abre tu navegador en la direcció
 Este módulo administra de forma centralizada el control de accesos, el login mediante tokens criptográficos y las acciones administrativas del personal utilizando una arquitectura desacoplada.
 
 #### 🔒 Mecanismos de Protección y Blindaje
-* **Autenticación Asíncrona JWT:** Las credenciales se validan contra el backend de Django, generando tokens de acceso y refresco de corta duración persistidos en el cliente (`localStorage`).
-* **Seguridad en Frontend (React):** Rutas restringidas dinámicamente mediante el componente de orden superior `<ProtectedRoute />`. Si un usuario con rango de `Empleado` intenta inyectar manualmente la URL `/admin/*` en el explorador, el validador limpia la pila de navegación y lo rebota al Dashboard de forma inmediata.
-* **Seguridad en Backend (Django):** Los endpoints críticos se encuentran encapsulados bajo permisos de clase (`EsAdministrador`). Aunque un cliente intente interceptar o saltarse la interfaz gráfica, la API REST rechaza la petición a nivel de servidor si el token no tiene propiedades de administrador (`is_superuser=True`).
-* **Cifrado de Credenciales:** Las contraseñas se almacenan mediante el algoritmo nativo de hash criptográfico `pbkdf2_sha256` de Django. Este cifrado se aplica automáticamente tanto en altas como en modificaciones de cuentas.
-* **Trazabilidad de Acciones (Auditoría):** Conexión directa con la tabla `AuditoriaLog`. Cada evento del CRUD (alta, edición, baja lógica o eliminación permanente) genera un log automático en el servidor con el timestamp, descripción de la acción, usuario responsable y dirección IP.
+
+- **Autenticación Asíncrona JWT:** Las credenciales se validan contra el backend de Django, generando tokens de acceso y refresco de corta duración persistidos en el cliente (`localStorage`).
+- **Seguridad en Frontend (React):** Rutas restringidas dinámicamente mediante el componente de orden superior `<ProtectedRoute />`. Si un usuario con rango de `Empleado` intenta inyectar manualmente la URL `/admin/*` en el explorador, el validador limpia la pila de navegación y lo rebota al Dashboard de forma inmediata.
+- **Seguridad en Backend (Django):** Los endpoints críticos se encuentran encapsulados bajo permisos de clase (`EsAdministrador`). Aunque un cliente intente interceptar o saltarse la interfaz gráfica, la API REST rechaza la petición a nivel de servidor si el token no tiene propiedades de administrador (`is_superuser=True`).
+- **Cifrado de Credenciales:** Las contraseñas se almacenan mediante el algoritmo nativo de hash criptográfico `pbkdf2_sha256` de Django. Este cifrado se aplica automáticamente tanto en altas como en modificaciones de cuentas.
+- **Trazabilidad de Acciones (Auditoría):** Conexión directa con la tabla `AuditoriaLog`. Cada evento del CRUD (alta, edición, baja lógica o eliminación permanente) genera un log automático en el servidor con el timestamp, descripción de la acción, usuario responsable y dirección IP.
 
 #### 🛠️ Configuración Inicial de Base de Datos (Obligatorio para el Equipo)
+
 Para que el sistema de asignación de roles asocie correctamente los permisos sin arrojar excepciones en el servidor al crear trabajadores, todos los integrantes del equipo deben poblar sus bases de datos locales corriendo los siguientes comandos:
 
 1. **Construir y aplicar esquemas de tablas:**
@@ -105,7 +116,7 @@ Para que el sistema de asignación de roles asocie correctamente los permisos si
 
 Al momento de crearlo, utiliza los siguientes accesos estándar de prueba para que todo el equipo mantenga la misma configuración:
 
-* **Usuario:** `admin`
-* **Contraseña:** `Admin123456789`
+- **Usuario:** `admin`
+- **Contraseña:** `Admin123456789`
 
 > ⚠️ **Importante:** Estas credenciales están destinadas exclusivamente para el uso del equipo de desarrollo en entornos locales. Nunca utilices estas contraseñas en servidores de producción.

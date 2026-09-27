@@ -3,7 +3,7 @@ import "./logincard.css";
 import initLogo from "../../images/InitLogo.png";
 import api from "../../services/api";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../../context/AuthContext";
+import { useAuth } from "../../context/auth-context";
 
 function LoginCard() {
   const [username, setUsername] = useState("");
