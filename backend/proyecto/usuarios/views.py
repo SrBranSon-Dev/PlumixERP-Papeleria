@@ -1,8 +1,35 @@
 from django.shortcuts import render, get_object_or_404
 from django.utils import timezone
+
+
+# Configuración del correo electrónico
+from django.conf import settings
+
+# Generación y validación de tokens seguros para recuperar contraseñas
+from django.contrib.auth.tokens import default_token_generator
+
+# Envío de correos electrónicos desde Django
+from django.core.mail import send_mail
+from django.core.exceptions import ValidationError as DjangoValidationError
+from django.contrib.auth.password_validation import validate_password
+
+# Conversión del identificador del usuario a una codificación segura
+from django.utils.encoding import force_bytes
+from django.utils.http import urlsafe_base64_encode
+
+
+# Decodificar el identificador recibido en el enlace de recuperación
+from django.utils.http import urlsafe_base64_decode
+
+# Convertir el identificador decodificado a texto
+from django.utils.encoding import force_str
+
+
+
 from django.db import models  # Añadida para capturar el ProtectedError
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework import status, generics, serializers as drf_serializers
 from rest_framework.exceptions import ValidationError
 
@@ -42,6 +69,65 @@ class PerfilUsuarioView(APIView):
     def get(self, request):
         serializer = PerfilUsuarioSerializer(request.user)
         return Response(serializer.data, status=status.HTTP_200_OK)
+    
+class CambiarPasswordView(APIView):
+    """
+    Permite al usuario autenticado cambiar su propia contraseña.
+    Requiere la contraseña actual y una nueva contraseña.
+    """
+
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        password_actual = request.data.get("password_actual", "")
+        nueva_password = request.data.get("nueva_password", "")
+        confirmar_password = request.data.get("confirmar_password", "")
+
+        # Verificar que todos los campos estén completos
+        if not password_actual or not nueva_password or not confirmar_password:
+            return Response(
+                {"mensaje": "Debes completar todos los campos."},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        # Verificar la contraseña actual
+        if not request.user.check_password(password_actual):
+            return Response(
+                {"mensaje": "La contraseña actual es incorrecta."},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        # Verificar que las nuevas contraseñas coincidan
+        if nueva_password != confirmar_password:
+            return Response(
+                {"mensaje": "Las nuevas contraseñas no coinciden."},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        # Evitar reutilizar la contraseña actual
+        if password_actual == nueva_password:
+            return Response(
+                {"mensaje": "La nueva contraseña debe ser diferente a la actual."},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        # Validar seguridad de la nueva contraseña
+        try:
+            validate_password(nueva_password, user=request.user)
+        except DjangoValidationError as error:
+            return Response(
+                {"mensaje": error.messages},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        # Guardar la nueva contraseña de forma segura
+        request.user.set_password(nueva_password)
+        request.user.save(update_fields=["password"])
+
+        return Response(
+            {"mensaje": "Contraseña cambiada correctamente."},
+            status=status.HTTP_200_OK
+        )    
 
 
 class GestionEstadoEmpleadoView(APIView):
@@ -256,3 +342,140 @@ class CierreCajaView(APIView):
             }, status=status.HTTP_200_OK)
             
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+    
+# ==========================================
+# 4. RECUPERACIÓN DE CONTRASEÑA
+# ==========================================
+
+class SolicitarRecuperacionPasswordView(APIView):
+    """
+    Recibe el correo del usuario y genera un enlace
+    temporal para recuperar su contraseña.
+    """
+
+    # Permite solicitar la recuperación sin iniciar sesión
+    permission_classes = [AllowAny]
+    authentication_classes = []
+
+    def post(self, request):
+        # Obtener el correo enviado desde el formulario
+        email = request.data.get("email", "").strip()
+
+        # Validar que se haya ingresado un correo
+        if not email:
+            return Response(
+                {"mensaje": "Debes ingresar tu correo electrónico."},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        # Buscar usuarios activos con ese correo
+        usuarios = UsuarioPersonalizado.objects.filter(
+            email__iexact=email,
+            is_active=True
+        )
+
+        # Generar el enlace solo si existe una cuenta
+        if usuarios.exists():
+            for usuario in usuarios:
+                # Codificar el identificador del usuario
+                uid = urlsafe_base64_encode(force_bytes(usuario.pk))
+
+                # Generar un token de recuperación
+                token = default_token_generator.make_token(usuario)
+
+                # Crear el enlace para las pruebas locales
+                enlace = (
+                    f"http://localhost:5173/restablecer/{uid}/{token}"
+                )
+
+                # Enviar el correo; en modo de prueba
+                # aparecerá en la terminal de Django
+                send_mail(
+                    subject="Recuperación de contraseña - PlumixERP",
+                    message=(
+                        f"Hola {usuario.username},\n\n"
+                        "Solicitaste recuperar tu contraseña.\n"
+                        f"Enlace de recuperación: {enlace}\n\n"
+                        "Si no solicitaste este cambio, "
+                        "ignora este mensaje."
+                    ),
+                    from_email=settings.DEFAULT_FROM_EMAIL,
+                    recipient_list=[usuario.email],
+                    fail_silently=False,
+                )
+
+        # No revelar si el correo está registrado
+        return Response(
+            {
+                "mensaje": (
+                    "Si el correo está registrado, recibirás "
+                    "instrucciones para recuperar tu contraseña."
+                )
+            },
+            status=status.HTTP_200_OK
+        )
+
+
+
+# ==========================================
+# 5. RESTABLECER CONTRASEÑA
+# ==========================================
+
+class RestablecerPasswordView(APIView): 
+    """
+    Valida el enlace de recuperación y permite
+    establecer una contraseña nueva.
+    """
+
+    permission_classes = [AllowAny]
+    authentication_classes = []
+
+    def post(self, request):
+        # Obtener los datos enviados
+        uid = request.data.get("uid", "")
+        token = request.data.get("token", "")
+        nueva_password = request.data.get("password", "")
+
+        # Verificar que se hayan enviado todos los campos
+        if not uid or not token or not nueva_password:
+            return Response(
+                {"mensaje": "Debes proporcionar el enlace y la nueva contraseña."},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        try:
+            # Decodificar el identificador del usuario
+            usuario_id = force_str(urlsafe_base64_decode(uid))
+
+            # Buscar la cuenta correspondiente
+            usuario = UsuarioPersonalizado.objects.get(
+                pk=usuario_id,
+                is_active=True
+            )
+        except (
+            ValueError,
+            TypeError,
+            OverflowError,
+            UsuarioPersonalizado.DoesNotExist
+        ):
+            return Response(
+                {"mensaje": "El enlace de recuperación no es válido."},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        # Comprobar que el token sea válido y no haya sido invalidado
+        if not default_token_generator.check_token(usuario, token):
+            return Response(
+                {"mensaje": "El enlace expiró o ya no es válido. Solicita uno nuevo."},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        # Guardar la contraseña utilizando el mecanismo seguro de Django
+        usuario.set_password(nueva_password)
+        usuario.save(update_fields=["password"])
+
+        return Response(
+            {"mensaje": "Tu contraseña se ha restablecido correctamente."},
+            status=status.HTTP_200_OK
+        )

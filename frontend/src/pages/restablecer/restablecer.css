@@ -1,0 +1,106 @@
+.restablecer-container {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f5f6fa;
+  padding: 30px;
+}
+
+.restablecer-card {
+  width: 100%;
+  max-width: 520px;
+  background-color: white;
+  padding: 45px;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+}
+
+.restablecer-card h1 {
+  text-align: center;
+  margin-bottom: 15px;
+  font-size: 32px;
+}
+
+.restablecer-descripcion {
+  text-align: center;
+  color: #555;
+  line-height: 1.5;
+  margin-bottom: 35px;
+}
+
+.restablecer-card form {
+  display: flex;
+  flex-direction: column;
+}
+
+.restablecer-card label {
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.restablecer-card input {
+  padding: 15px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 16px;
+  margin-bottom: 20px;
+}
+
+.restablecer-card input:focus {
+  outline: none;
+  border-color: #c62828;
+}
+
+.restablecer-card form button {
+  padding: 15px;
+  border: none;
+  border-radius: 8px;
+  background-color: #c62828;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.restablecer-card form button:hover {
+  background-color: #a91f1f;
+}
+
+.restablecer-card form button:disabled {
+  background-color: #aaa;
+  cursor: not-allowed;
+}
+
+.restablecer-error {
+  background-color: #fdeaea;
+  color: #b71c1c;
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 15px;
+}
+
+.restablecer-mensaje {
+  background-color: #e8f5e9;
+  color: #2e7d32;
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 15px;
+}
+
+.btn-volver-login {
+  width: 100%;
+  margin-top: 15px;
+  padding: 14px;
+  border: none;
+  border-radius: 8px;
+  background-color: #d0d0d0;
+  color: #111;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.btn-volver-login:hover {
+  background-color: #bdbdbd;
+}

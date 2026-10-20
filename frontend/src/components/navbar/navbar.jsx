@@ -139,12 +139,22 @@ function Navbar() {
               <div className="dropdown-footer">
 
                 <button
+                  className="btn-navbar-change-password"
+                  onClick={() => {
+                    setMenuAbierto(false);
+                    navigate("/cambiar-password");
+                  }}
+                >  
+                  🔑 Cambiar contraseña
+                </button>
+
+                <button
                   className="btn-navbar-logout"
                   onClick={handleLogout}
                   style={{
                     width: "100%",
                     justifyContent: "center",
-                  }}
+                    }}
                 >
                   Cerrar sesión
                 </button>

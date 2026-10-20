@@ -18,6 +18,9 @@ import Ventas from "./pages/Ventas";
 import Compras from "./pages/compras/compras";
 import Facturacion from "./pages/facturacion/facturacion";
 import Reportes from "./pages/Reportes";
+import CambiarPassword from "./pages/cambiar_password/cambiar_password";
+import RecuperarPassword from "./pages/recuperar/recuperar";
+import RestablecerPassword from "./pages/restablecer/restablecer";
 
 // Rutas
 import RegistroEmpleados from "./pages/registro_empleados/registro_empleados";
@@ -49,6 +52,29 @@ function App() {
               <Dashboard />
             </ProtectedRoute>
           }
+        />
+        {/*cambiar-clave */ }
+
+        <Route
+          path="/cambiar-password"
+          element={
+            <ProtectedRoute>
+              <CambiarPassword />
+            </ProtectedRoute>
+          }
+        />
+
+         {/* olvidaste o recuperar  contraseña */}
+
+        <Route
+          path="/recuperar"
+          element={<RecuperarPassword />}
+        />
+
+
+        <Route
+          path="/restablecer/:uid/:token"
+          element={<RestablecerPassword />}
         />
 
         {/* Registro de empleados */}

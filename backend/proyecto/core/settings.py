@@ -162,3 +162,8 @@ SIMPLE_JWT = {
 
 AUTH_USER_MODEL = 'usuarios.UsuarioPersonalizado'
 
+# Configuración de correo para pruebas locales
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+DEFAULT_FROM_EMAIL = "noreply@plumixerp.local"
+
+

@@ -3,33 +3,24 @@ import api from "../services/api";
 import "./Ventas.css";
 
 function Ventas() {
-  // =========================================================
   // ESTADOS
-  // =========================================================
-
   const [clientes, setClientes] = useState([]);
   const [productos, setProductos] = useState([]);
   const [ventas, setVentas] = useState([]);
 
   const [clienteSeleccionado, setClienteSeleccionado] = useState("");
   const [medioPago, setMedioPago] = useState("EFECTIVO");
-
   const [productoSeleccionado, setProductoSeleccionado] = useState("");
   const [cantidad, setCantidad] = useState(1);
-
   const [productosVenta, setProductosVenta] = useState([]);
 
   const [guardando, setGuardando] = useState(false);
   const [cargandoVentas, setCargandoVentas] = useState(false);
 
-  // =========================================================
   // CARGAR CLIENTES
-  // =========================================================
-
   const cargarClientes = useCallback(async () => {
     try {
       const respuesta = await api.get("clientes/");
-      console.log("Clientes recibidos:", respuesta.data);
       setClientes(respuesta.data);
     } catch (error) {
       console.error("Error cargando clientes:", error);
@@ -37,14 +28,10 @@ function Ventas() {
     }
   }, []);
 
-  // =========================================================
   // CARGAR PRODUCTOS
-  // =========================================================
-
   const cargarProductos = useCallback(async () => {
     try {
       const respuesta = await api.get("productos/api/productos/");
-      console.log("Productos recibidos:", respuesta.data);
       setProductos(respuesta.data);
     } catch (error) {
       console.error("Error cargando productos:", error);
@@ -52,18 +39,11 @@ function Ventas() {
     }
   }, []);
 
-  // =========================================================
   // CARGAR VENTAS REGISTRADAS
-  // =========================================================
-
   const cargarVentas = useCallback(async () => {
     try {
       setCargandoVentas(true);
-
       const respuesta = await api.get("ventas/ventas/");
-
-      console.log("Ventas registradas:", respuesta.data);
-
       setVentas(respuesta.data);
     } catch (error) {
       console.error("Error cargando ventas:", error);
@@ -72,32 +52,24 @@ function Ventas() {
     }
   }, []);
 
-  // =========================================================
   // CARGAR DATOS AL INICIAR
-  // =========================================================
-
   useEffect(() => {
-    const temporizador = setTimeout(() => {
-      cargarClientes();
-      cargarProductos();
-      cargarVentas();
-    }, 0);
-
-    return () => clearTimeout(temporizador);
+    cargarClientes();
+    cargarProductos();
+    cargarVentas();
   }, [cargarClientes, cargarProductos, cargarVentas]);
 
-  // =========================================================
-  // AGREGAR PRODUCTO
-  // =========================================================
-
-  const agregarProducto = () => {
+  // AGREGAR PRODUCTO CON VALIDACIÓN DE INVENTARIO
+  const agregarProducto = async () => {
     if (!productoSeleccionado) {
       alert("Seleccione un producto.");
       return;
     }
 
-    if (!cantidad || Number(cantidad) <= 0) {
-      alert("La cantidad debe ser mayor que 0.");
+    const cantidadNumerica = Number(cantidad);
+
+    if (!Number.isInteger(cantidadNumerica) || cantidadNumerica <= 0) {
+      alert("La cantidad debe ser un número entero mayor que 0.");
       return;
     }
 
@@ -112,66 +84,106 @@ function Ventas() {
 
     const precio = Number(producto.precio_venta);
 
-    if (isNaN(precio) || precio < 0) {
+    if (!Number.isFinite(precio) || precio < 0) {
       alert("El producto no tiene un precio válido.");
       return;
     }
 
-    const cantidadNumerica = Number(cantidad);
-
-    const productoExistente = productosVenta.find(
-      (p) => p.id === producto.id
-    );
-
-    if (productoExistente) {
-      const nuevaCantidad =
-        productoExistente.cantidad + cantidadNumerica;
-
-      setProductosVenta((productosActuales) =>
-        productosActuales.map((p) =>
-          p.id === producto.id
-            ? {
-                ...p,
-                cantidad: nuevaCantidad,
-                subtotal: nuevaCantidad * p.precio_venta,
-              }
-            : p
-        )
+    try {
+      // Consultar existencias en la base de datos mediante la API.
+      const respuestaInventario = await api.get(
+        "productos/api/inventario/"
       );
-    } else {
-      const nuevoProducto = {
-        id: producto.id,
-        nombre: producto.nombre,
-        codigo: producto.codigo,
-        precio_venta: precio,
-        cantidad: cantidadNumerica,
-        subtotal: precio * cantidadNumerica,
-      };
 
-      setProductosVenta((productosActuales) => [
-        ...productosActuales,
-        nuevoProducto,
-      ]);
+      const datosInventario = respuestaInventario.data;
+
+      const inventarios = Array.isArray(datosInventario)
+        ? datosInventario
+        : Array.isArray(datosInventario?.results)
+          ? datosInventario.results
+          : null;
+
+      if (!inventarios) {
+        throw new Error(
+          "La respuesta del inventario tiene un formato inesperado."
+        );
+      }
+
+      const inventario = inventarios.find(
+        (item) => Number(item.producto) === Number(producto.id)
+      );
+
+      const stockDisponible = Number(inventario?.cantidad ?? 0);
+
+      const productoExistente = productosVenta.find(
+        (p) => Number(p.id) === Number(producto.id)
+      );
+
+      const cantidadActual = Number(
+        productoExistente?.cantidad ?? 0
+      );
+
+      const cantidadSolicitada =
+        cantidadActual + cantidadNumerica;
+
+      // Impedir agregar cantidades superiores al inventario disponible.
+      if (cantidadSolicitada > stockDisponible) {
+        alert(
+          `Stock insuficiente para ${producto.nombre}.\n` +
+          `Disponible: ${stockDisponible} unidades.\n` +
+          `Ya agregadas a la venta: ${cantidadActual} unidades.`
+        );
+        return;
+      }
+
+      if (productoExistente) {
+        setProductosVenta((productosActuales) =>
+          productosActuales.map((p) =>
+            Number(p.id) === Number(producto.id)
+              ? {
+                  ...p,
+                  cantidad: cantidadSolicitada,
+                  subtotal: cantidadSolicitada * precio,
+                }
+              : p
+          )
+        );
+      } else {
+        const nuevoProducto = {
+          id: producto.id,
+          nombre: producto.nombre,
+          codigo: producto.codigo,
+          precio_venta: precio,
+          cantidad: cantidadNumerica,
+          subtotal: precio * cantidadNumerica,
+        };
+
+        setProductosVenta((productosActuales) => [
+          ...productosActuales,
+          nuevoProducto,
+        ]);
+      }
+
+      setProductoSeleccionado("");
+      setCantidad(1);
+    } catch (error) {
+      console.error("Error consultando el inventario:", error);
+
+      alert(
+        "No fue posible verificar el inventario. " +
+        "No se agregó el producto. Intente nuevamente."
+      );
     }
-
-    setProductoSeleccionado("");
-    setCantidad(1);
   };
 
-  // =========================================================
-  // ELIMINAR PRODUCTO
-  // =========================================================
-
+  // ELIMINAR PRODUCTO DEL DETALLE LOCAL
   const eliminarProducto = (id) => {
     setProductosVenta((productosActuales) =>
       productosActuales.filter((producto) => producto.id !== id)
     );
   };
 
-  // =========================================================
   // LIMPIAR FORMULARIO
-  // =========================================================
-
   const limpiarVenta = () => {
     setClienteSeleccionado("");
     setMedioPago("EFECTIVO");
@@ -180,10 +192,7 @@ function Ventas() {
     setProductosVenta([]);
   };
 
-  // =========================================================
   // TOTALES
-  // =========================================================
-
   const subtotal = productosVenta.reduce(
     (total, producto) => total + Number(producto.subtotal),
     0
@@ -192,10 +201,7 @@ function Ventas() {
   const iva = subtotal * 0.19;
   const total = subtotal + iva;
 
-  // =========================================================
   // GUARDAR VENTA
-  // =========================================================
-
   const guardarVenta = async () => {
     if (!clienteSeleccionado) {
       alert("Seleccione un cliente.");
@@ -216,8 +222,6 @@ function Ventas() {
         medio_pago: medioPago,
       };
 
-      console.log("Creando venta:", ventaData);
-
       const respuestaVenta = await api.post(
         "ventas/ventas/",
         ventaData
@@ -225,9 +229,7 @@ function Ventas() {
 
       const ventaCreada = respuestaVenta.data;
 
-      console.log("Venta creada:", ventaCreada);
-
-      // Crear detalles
+      // Crear detalles de la venta
       for (const producto of productosVenta) {
         const detalleData = {
           venta: ventaCreada.id,
@@ -235,8 +237,6 @@ function Ventas() {
           cantidad: producto.cantidad,
           valor_unitario: producto.precio_venta,
         };
-
-        console.log("Creando detalle:", detalleData);
 
         await api.post(
           "ventas/detalles-venta/",
@@ -249,11 +249,6 @@ function Ventas() {
         `ventas/ventas/${ventaCreada.id}/`
       );
 
-      console.log(
-        "Venta final:",
-        ventaActualizada.data
-      );
-
       alert(
         `Venta #${ventaCreada.id} registrada correctamente.\n\n` +
         `Subtotal: ${formatoMoneda(ventaActualizada.data.subtotal)}\n` +
@@ -261,12 +256,8 @@ function Ventas() {
         `Total: ${formatoMoneda(ventaActualizada.data.total)}`
       );
 
-      // Limpiar formulario
       limpiarVenta();
-
-      // Actualizar listado de ventas
-      cargarVentas();
-
+      await cargarVentas();
     } catch (error) {
       console.error("Error guardando la venta:", error);
 
@@ -288,10 +279,7 @@ function Ventas() {
     }
   };
 
-  // =========================================================
   // FORMATO MONEDA
-  // =========================================================
-
   const formatoMoneda = (valor) => {
     return Number(valor).toLocaleString("es-CO", {
       style: "currency",
@@ -300,10 +288,7 @@ function Ventas() {
     });
   };
 
-  // =========================================================
   // OBTENER NOMBRE DEL CLIENTE
-  // =========================================================
-
   const obtenerNombreCliente = (clienteId) => {
     const cliente = clientes.find(
       (c) => Number(c.id) === Number(clienteId)
@@ -320,10 +305,7 @@ function Ventas() {
     );
   };
 
-  // =========================================================
   // FORMATO FECHA
-  // =========================================================
-
   const formatoFecha = (fecha) => {
     if (!fecha) {
       return "-";
@@ -332,53 +314,32 @@ function Ventas() {
     return new Date(fecha).toLocaleString("es-CO");
   };
 
-  // =========================================================
   // VISTA
-  // =========================================================
-
   return (
     <div className="ventas-container">
-
-      {/* =====================================================
-          ENCABEZADO
-      ====================================================== */}
-
       <div className="ventas-header">
         <h1>Gestión de Ventas</h1>
-
         <p>
-          Registra y administra las ventas
-          realizadas en la papelería.
+          Registra y administra las ventas realizadas en la papelería.
         </p>
       </div>
 
-      {/* =====================================================
-          FORMULARIO
-      ====================================================== */}
-
+      {/* FORMULARIO */}
       <div className="ventas-form">
-
         <h2>Registrar nueva venta</h2>
 
         <div className="form-grid">
-
-          {/* Cliente */}
-
+          {/* CLIENTE */}
           <select
             value={clienteSeleccionado}
             onChange={(e) =>
               setClienteSeleccionado(e.target.value)
             }
           >
-            <option value="">
-              Seleccionar cliente
-            </option>
+            <option value="">Seleccionar cliente</option>
 
             {clientes.map((cliente) => (
-              <option
-                key={cliente.id}
-                value={cliente.id}
-              >
+              <option key={cliente.id} value={cliente.id}>
                 {cliente.nombre ||
                   cliente.nombre_completo ||
                   `Cliente ${cliente.id}`}
@@ -386,66 +347,45 @@ function Ventas() {
             ))}
           </select>
 
-          {/* Medio de pago */}
-
+          {/* MEDIO DE PAGO */}
           <select
             value={medioPago}
-            onChange={(e) =>
-              setMedioPago(e.target.value)
-            }
+            onChange={(e) => setMedioPago(e.target.value)}
           >
-            <option value="EFECTIVO">
-              Efectivo
-            </option>
-
-            <option value="TRANSFERENCIA">
-              Transferencia
-            </option>
-
-            <option value="TARJETA">
-              Tarjeta
-            </option>
+            <option value="EFECTIVO">Efectivo</option>
+            <option value="TRANSFERENCIA">Transferencia</option>
+            <option value="TARJETA">Tarjeta</option>
           </select>
 
-          {/* Producto */}
-
+          {/* PRODUCTO */}
           <select
             value={productoSeleccionado}
             onChange={(e) =>
               setProductoSeleccionado(e.target.value)
             }
           >
-            <option value="">
-              Seleccionar producto
-            </option>
+            <option value="">Seleccionar producto</option>
 
             {productos.map((producto) => (
-              <option
-                key={producto.id}
-                value={producto.id}
-              >
+              <option key={producto.id} value={producto.id}>
                 {producto.nombre} -{" "}
                 {formatoMoneda(producto.precio_venta)}
               </option>
             ))}
           </select>
 
-          {/* Cantidad */}
-
+          {/* CANTIDAD */}
           <input
             type="number"
             min="1"
+            step="1"
             value={cantidad}
-            onChange={(e) =>
-              setCantidad(Number(e.target.value))
-            }
+            onChange={(e) => setCantidad(e.target.value)}
             placeholder="Cantidad"
           />
-
         </div>
 
         <div className="form-actions">
-
           <button
             type="button"
             className="btn-limpiar"
@@ -465,29 +405,17 @@ function Ventas() {
           >
             Agregar producto
           </button>
-
         </div>
-
       </div>
 
-      {/* =====================================================
-          PRODUCTOS DE LA VENTA
-      ====================================================== */}
-
+      {/* PRODUCTOS DE LA VENTA */}
       <div className="tabla-card venta-productos-card">
-
         <h2>Productos de la venta</h2>
 
         {productosVenta.length === 0 ? (
-
-          <p>
-            No hay productos agregados a esta venta.
-          </p>
-
+          <p>No hay productos agregados a esta venta.</p>
         ) : (
-
           <table className="tabla-ventas">
-
             <thead>
               <tr>
                 <th>Producto</th>
@@ -500,82 +428,45 @@ function Ventas() {
             </thead>
 
             <tbody>
-
               {productosVenta.map((producto) => (
                 <tr key={producto.id}>
-
                   <td>{producto.nombre}</td>
-
                   <td>{producto.codigo}</td>
-
                   <td>{producto.cantidad}</td>
-
+                  <td>{formatoMoneda(producto.precio_venta)}</td>
+                  <td>{formatoMoneda(producto.subtotal)}</td>
                   <td>
-                    {formatoMoneda(
-                      producto.precio_venta
-                    )}
-                  </td>
-
-                  <td>
-                    {formatoMoneda(
-                      producto.subtotal
-                    )}
-                  </td>
-
-                  <td>
-
                     <button
                       type="button"
                       className="btn-eliminar"
-                      onClick={() =>
-                        eliminarProducto(producto.id)
-                      }
+                      onClick={() => eliminarProducto(producto.id)}
                     >
                       Eliminar
                     </button>
-
                   </td>
-
                 </tr>
               ))}
-
             </tbody>
-
           </table>
-
         )}
 
-        {/* Totales */}
-
+        {/* TOTALES */}
         <div className="totales-venta">
-
           <p>
-            Subtotal:
-            <strong>
-              {formatoMoneda(subtotal)}
-            </strong>
+            Subtotal: <strong>{formatoMoneda(subtotal)}</strong>
           </p>
 
           <p>
-            IVA (19%):
-            <strong>
-              {formatoMoneda(iva)}
-            </strong>
+            IVA (19%): <strong>{formatoMoneda(iva)}</strong>
           </p>
 
           <p className="total-venta">
-            Total:
-            <strong>
-              {formatoMoneda(total)}
-            </strong>
+            Total: <strong>{formatoMoneda(total)}</strong>
           </p>
-
         </div>
 
-        {/* Guardar */}
-
+        {/* GUARDAR VENTA */}
         <div className="form-actions">
-
           <button
             type="button"
             className="btn-guardar"
@@ -586,37 +477,21 @@ function Ventas() {
               guardando
             }
           >
-            {guardando
-              ? "Guardando..."
-              : "Guardar venta"}
+            {guardando ? "Guardando..." : "Guardar venta"}
           </button>
-
         </div>
-
       </div>
 
-      {/* =====================================================
-          VENTAS REGISTRADAS
-      ====================================================== */}
-
+      {/* VENTAS REGISTRADAS */}
       <div className="tabla-card ventas-registradas">
-
         <h2>Ventas registradas</h2>
 
         {cargandoVentas ? (
-
           <p>Cargando ventas...</p>
-
         ) : ventas.length === 0 ? (
-
-          <p>
-            No hay ventas registradas.
-          </p>
-
+          <p>No hay ventas registradas.</p>
         ) : (
-
           <table className="tabla-ventas">
-
             <thead>
               <tr>
                 <th>N.º Venta</th>
@@ -630,61 +505,23 @@ function Ventas() {
             </thead>
 
             <tbody>
-
               {ventas.map((venta) => (
-
                 <tr key={venta.id}>
-
+                  <td>#{venta.id}</td>
+                  <td>{obtenerNombreCliente(venta.cliente)}</td>
+                  <td>{formatoFecha(venta.fecha)}</td>
+                  <td>{venta.medio_pago}</td>
+                  <td>{formatoMoneda(venta.subtotal)}</td>
+                  <td>{formatoMoneda(venta.iva)}</td>
                   <td>
-                    #{venta.id}
+                    <strong>{formatoMoneda(venta.total)}</strong>
                   </td>
-
-                  <td>
-                    {obtenerNombreCliente(
-                      venta.cliente
-                    )}
-                  </td>
-
-                  <td>
-                    {formatoFecha(venta.fecha)}
-                  </td>
-
-                  <td>
-                    {venta.medio_pago}
-                  </td>
-
-                  <td>
-                    {formatoMoneda(
-                      venta.subtotal
-                    )}
-                  </td>
-
-                  <td>
-                    {formatoMoneda(
-                      venta.iva
-                    )}
-                  </td>
-
-                  <td>
-                    <strong>
-                      {formatoMoneda(
-                        venta.total
-                      )}
-                    </strong>
-                  </td>
-
                 </tr>
-
               ))}
-
             </tbody>
-
           </table>
-
         )}
-
       </div>
-
     </div>
   );
 }

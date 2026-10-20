@@ -1,7 +1,10 @@
 from django.urls import path
-from .views import (
+from .views import ( 
     RegistroUsuarioView, 
     PerfilUsuarioView, 
+    CambiarPasswordView,
+    SolicitarRecuperacionPasswordView,
+    RestablecerPasswordView,
     ListarAuditoriaLogsView, 
     AperturaCajaView, 
     CierreCajaView, 
@@ -16,6 +19,27 @@ urlpatterns = [
     # Gestión de Sesión y Perfil
     path('registro/', RegistroUsuarioView.as_view(), name='api_registro'),
     path('perfil/', PerfilUsuarioView.as_view(), name='api_perfil'),
+    path(
+    'cambiar-password/',
+    CambiarPasswordView.as_view(),
+    name='api_cambiar_password'
+),
+    
+# Recuperación de contraseña
+path(
+    'recuperar-password/',
+    SolicitarRecuperacionPasswordView.as_view(),
+    name='api_recuperar_password'
+),
+
+
+# Restablecer contraseña con el enlace recibido
+path(
+    'restablecer-password/',
+    RestablecerPasswordView.as_view(),
+    name='api_restablecer_password'
+),
+
     
     # Completando el CRUD de Empleados para el Administrador
     path('empleados/listar/', ListarEmpleadosView.as_view(), name='api_listar_empleados'),
